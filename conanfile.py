@@ -6,8 +6,15 @@ import os
 class LoonLibConan(ConanFile):
     name = "loon"
     version = "0.1.0"
+    description = "High-performance, header-only C++ data structures for low-latency applications"
+    license = "MIT"
+    author = "Jorge Suarez-Rivaya"
+    url = "https://github.com/jsrivaya/loon"
+    homepage = "https://github.com/jsrivaya/loon"
+    topics = ("cpp", "header-only", "data-structures", "lru-cache", "performance", "low-latency", "hft")
+
     package_type = "header-library"
-    exports_sources = "include/*", "test/*", "CMakeLists.txt"
+    exports_sources = "include/*", "test/*", "CMakeLists.txt", "LICENSE"
     settings = "os", "arch", "compiler", "build_type"
     generators = "CMakeToolchain", "CMakeDeps"
     no_copy_source = True
@@ -30,6 +37,9 @@ class LoonLibConan(ConanFile):
             cmake.test()
 
     def package(self):
+        copy(self, "LICENSE",
+             src=self.source_folder,
+             dst=os.path.join(self.package_folder, "licenses"))
         copy(self, "*.hpp",
              src=os.path.join(self.source_folder, "include"),
              dst=os.path.join(self.package_folder, "include"))
