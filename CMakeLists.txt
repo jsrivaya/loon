@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
-project(loon LANGUAGES CXX)
+project(loon VERSION 0.1.0 LANGUAGES CXX)
 
-# Interface target for the header-only library
+# Header-only library target
 add_library(loon INTERFACE)
 target_include_directories(loon
     INTERFACE
@@ -9,7 +9,10 @@ target_include_directories(loon
         $<INSTALL_INTERFACE:include>
 )
 
-# Optional: generate and install config package
+# Alias for namespaced usage
+add_library(loon::loon ALIAS loon)
+
+# Generate and install config package
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/loonConfigVersion.cmake"
@@ -37,4 +40,11 @@ export(
     EXPORT loonTargets
     NAMESPACE loon::
     FILE "${CMAKE_CURRENT_BINARY_DIR}/loonTargets.cmake"
-)   
+)
+
+# Testing
+option(LOON_BUILD_TESTS "Build tests" OFF)
+if(LOON_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(test)
+endif()   

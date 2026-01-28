@@ -1,0 +1,12 @@
+[settings]
+os=Macos
+arch=x86_64
+compiler=apple-clang
+compiler.version=14
+compiler.libcxx=libc++
+compiler.cppstd=23
+build_type=Release
+
+[buildenv]
+CC=clang
+CXX=clang++
