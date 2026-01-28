@@ -75,6 +75,16 @@ cache.remove(1);
 cache.size();     // 1
 ```
 
+**LRU Cache Complexity:**
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| `get(key)` | O(1) | O(1) |
+| `put(key, value)` | O(1) | O(1) |
+| `exists(key)` | O(1) | O(1) |
+| `remove(key)` | O(1) | O(1) |
+| `size()` | O(1) | O(1) |
+
 #### Redis List
 
 ```cpp
@@ -92,6 +102,20 @@ auto vals = list.rpop(2);    // pop multiple from back
 auto range = list.lrange(0, -1);  // get all elements (supports negative indices)
 list.llen();  // size
 ```
+
+**Redis List Complexity:**
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| `lpush(value)` | O(1) | O(1) |
+| `rpush(value)` | O(1) | O(1) |
+| `lpop()` | O(1) | O(1) |
+| `rpop()` | O(1) | O(1) |
+| `lpop(count)` | O(count) | O(count) |
+| `rpop(count)` | O(count) | O(count) |
+| `lrange(start, stop)` | O(stop - start) | O(stop - start) |
+| `llen()` / `size()` | O(1) | O(1) |
+| `empty()` | O(1) | O(1) |
 
 ---
 
