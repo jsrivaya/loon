@@ -7,7 +7,7 @@ CONAN_PROFILE ?= profiles/macos-clang14
 
 .PHONY: conan-setup
 conan-setup: ## setup conan with conancenter remote
-	conan remote add conancenter https://center.conan.io --force
+	conan remote add conancenter https://center2.conan.io --force
 
 .PHONY: deps
 deps: ## install conan dependencies
