@@ -1,5 +1,7 @@
 ## loon – High-Performance, Header-Only C++ Library
 
+[![Build Status](https://github.com/jsrivaya/loon/actions/workflows/ci.yml/badge.svg)](https://github.com/jsrivaya/loon/actions/workflows/ci.yml)
+
 **loon** is a lightweight, header-only C++ library designed for low memory footprint, low latency, and maximum performance. It provides optimized data structures and utilities that outperform standard STL counterparts while maintaining full STL compatibility.
 
 ---
