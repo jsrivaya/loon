@@ -2,8 +2,8 @@ from conan import ConanFile
 from conan.tools.files import copy
 from conan.tools.cmake import cmake_layout, CMake
 
-class LooneyLibConan(ConanFile):
-    name = "looneytools"
+class LoonLibConan(ConanFile):
+    name = "loon"
     version = "0.1.0"
     package_type = "header-library"  # Important for header-only
     exports_sources = "include/*", "test/*"

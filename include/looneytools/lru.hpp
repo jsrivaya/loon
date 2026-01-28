@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <optional>
 
-namespace looneytools {
+namespace loon {
 
     template <typename K, typename V>
     class LRUCache {
@@ -64,4 +64,4 @@ namespace looneytools {
         }
     };
 
-} // namespace looneytools
+} // namespace loon

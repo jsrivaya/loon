@@ -4,7 +4,7 @@
 #include <queue>
 #include <vector>
 
-namespace looneytools {
+namespace loon {
 
     template <typename T>
     class RedisList {
@@ -99,4 +99,4 @@ namespace looneytools {
         std::deque<T> impl;
     };
 
-} // namespace looneytools
+} // namespace loon
