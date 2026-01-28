@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-13 cmake
+          pip install conan gcovr
+
+      - name: Setup Conan
+        run: |
+          conan profile detect --force
+          conan remote add conancenter https://center.conan.io --force || true
+
+      - name: Build and test
+        run: |
+          conan build . --build=missing --profile=profiles/linux-gcc
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-13 cmake
+          pip install conan gcovr
+
+      - name: Setup Conan
+        run: |
+          conan profile detect --force
+          conan remote add conancenter https://center.conan.io --force || true
+
+      - name: Build with coverage
+        run: |
+          conan build . --build=missing --profile=profiles/linux-gcc-coverage
+
+      - name: Generate coverage report
+        run: |
+          mkdir -p coverage
+          gcovr --root . \
+                --filter include/ \
+                --exclude-unreachable-branches \
+                --xml coverage/coverage.xml \
+                --html-details coverage/index.html
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check clang-format
+        run: |
+          find . -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --dry-run -Werror
