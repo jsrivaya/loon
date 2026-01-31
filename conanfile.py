@@ -14,6 +14,7 @@ class LoonLibConan(ConanFile):
     topics = ("cpp", "header-only", "data-structures", "lru-cache", "performance", "low-latency", "hft")
 
     package_type = "header-library"
+    implements = ["auto_header_only"]
     exports_sources = "include/*", "test/*", "CMakeLists.txt", "LICENSE"
     settings = "os", "arch", "compiler", "build_type"
     generators = "CMakeToolchain", "CMakeDeps"
