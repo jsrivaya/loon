@@ -70,3 +70,16 @@ jobs:
       - name: Check clang-format
         run: |
           find . -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --dry-run -Werror
+
+  static-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install cppcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cppcheck
+
+      - name: Run cppcheck
+        run: make check
