@@ -1,7 +1,8 @@
 #pragma once
 
 #include <algorithm>
-#include <queue>
+#include <deque>
+#include <optional>
 #include <vector>
 
 namespace loon {
