@@ -71,9 +71,10 @@ check: ## Run static analysis checks using cppcheck
 			 --inline-suppr \
 			 --check-level=exhaustive \
 			 --error-exitcode=1 \
-			 --suppressions-list=config/cppcheck-suppressions.txt \
 			 --checkers-report=cppcheck_report.txt \
-			 ./src
+			 --language=c++ \
+			 --suppressions-list=config/cppcheck-suppressions.txt \
+			 ./include/loon/*.hpp
 
 ################################### Other targets
 

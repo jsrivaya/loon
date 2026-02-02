@@ -1,2 +1,4 @@
 build
 coverage
+cppcheck-cache
+cppcheck_report.txt

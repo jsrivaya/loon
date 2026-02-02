@@ -1,0 +1,8 @@
+# Cppcheck suppressions for loon (header-only library)
+# See: https://cppcheck.sourceforge.io/manual.html#suppressions
+
+# System headers not needed for cppcheck analysis
+missingIncludeSystem
+
+# False positive for header-only libraries - functions are used by consumers
+unusedFunction

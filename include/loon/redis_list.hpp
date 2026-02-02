@@ -14,7 +14,7 @@ public:
   // Copy and move semantics
   RedisList(const RedisList &other) = default;
   RedisList(RedisList &&other) noexcept = default;
-  RedisList(std::vector<T> &&other)
+  explicit RedisList(std::vector<T> &&other)
       : impl(std::make_move_iterator(other.begin()),
              std::make_move_iterator(other.end())) {}
   RedisList &operator=(const RedisList &other) = default;
