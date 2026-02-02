@@ -52,13 +52,15 @@ coverage-clean: ## clean coverage data
 ################################### Static Analysis
 CPPCHECK_CACHE_DIR ?= cppcheck-cache
 
-CLANG_FORMAT_CMD = find . -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format -style=file -i
+SOURCES := $(shell find include test test_package -iname "*.hpp" -o -iname "*.cpp")
+
 .PHONY: check-format
 check-format: ## Check clang format errors
-	$(CLANG_FORMAT_CMD) --dry-run -Werror
+	clang-format --style=file --dry-run -Werror $(SOURCES)
 
+.PHONY: format
 format: ## Apply clang format to code
-	$(CLANG_FORMAT_CMD)
+	clang-format --style=file -i $(SOURCES)
 
 .PHONY: check
 check: ## Run static analysis checks using cppcheck
@@ -75,6 +77,22 @@ check: ## Run static analysis checks using cppcheck
 			 --language=c++ \
 			 --suppressions-list=config/cppcheck-suppressions.txt \
 			 ./include/loon/*.hpp
+
+.PHONY: tidy
+tidy: ## Run clang-tidy static analysis
+	@clang-tidy --version
+	clang-tidy --warnings-as-errors=* ./include/loon/*.hpp -- -std=c++23
+
+.PHONY: iwyu
+iwyu: ## Run include-what-you-use analysis
+	@include-what-you-use --version || echo "Install: brew install include-what-you-use"
+	@for file in ./include/loon/*.hpp; do \
+		echo "Checking $$file..."; \
+		include-what-you-use -std=c++23 $$file 2>&1 || true; \
+	done
+
+.PHONY: check-all
+check-all: check tidy ## Run all static analysis checks (cppcheck + clang-tidy)
 
 ################################### Other targets
 
