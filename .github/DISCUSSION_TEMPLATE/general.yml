@@ -1,0 +1,26 @@
+title: "[General]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Welcome to loon Discussions!
+
+        Thanks for joining the community! This is a place to:
+        - Ask questions about using loon
+        - Share ideas and feedback
+        - Connect with other developers
+        - Discuss performance optimizations and use cases
+
+        **Before posting:**
+        - Check if your question has been answered before
+        - For bug reports, please use [Issues](https://github.com/jsrivaya/loon/issues/new/choose) instead
+        - Be respectful and follow our [Code of Conduct](https://github.com/jsrivaya/loon/blob/main/CODE_OF_CONDUCT.md)
+
+  - type: textarea
+    id: body
+    attributes:
+      label: What would you like to discuss?
+      description: Share your thoughts, questions, or ideas.
+    validations:
+      required: true

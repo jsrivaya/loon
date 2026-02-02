@@ -1,0 +1,31 @@
+title: "[Idea]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Share Your Ideas
+
+        Have an idea for a new data structure or improvement? We'd love to hear it!
+
+        For concrete feature requests that you'd like tracked, consider opening a [Feature Request](https://github.com/jsrivaya/loon/issues/new?template=feature_request.yml) issue instead.
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What's your idea?
+      description: Describe your idea in detail.
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: What problem would this solve? How would you use it?
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or References
+      description: Any existing implementations, papers, or resources that might be helpful?

@@ -1,0 +1,40 @@
+title: "[Q&A]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Ask a Question
+
+        Need help using loon? Ask away!
+
+        **Tips for getting a good answer:**
+        - Be specific about what you're trying to achieve
+        - Include code examples if relevant
+        - Mention your compiler and platform
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Any relevant code, error messages, or additional context.
+      render: cpp
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - LRUCache
+        - RedisList
+        - Installation / Setup
+        - Performance
+        - Other
