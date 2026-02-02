@@ -4,12 +4,12 @@
 #include <iostream>
 
 int main() {
-  // Test LRUCache
-  loon::LRUCache<int, std::string> cache(3);
+  // Test LRU
+  loon::LRU<int, std::string> cache(3);
   cache.put(1, "hello");
   auto val = cache.get(1);
   if (val && val->get() == "hello") {
-    std::cout << "LRUCache: OK\n";
+    std::cout << "LRU: OK\n";
   }
 
   // Test RedisList

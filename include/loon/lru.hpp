@@ -7,9 +7,9 @@
 namespace loon {
 
 template <typename K, typename V>
-class LRUCache {
+class LRU {
  public:
-  explicit LRUCache(size_t size) : capacity(size) {}
+  explicit LRU(size_t size) : capacity(size) {}
 
   std::optional<std::reference_wrapper<V>> get(const K& key) {
     const auto it = map.find(key);

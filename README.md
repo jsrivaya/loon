@@ -63,7 +63,7 @@ target_link_libraries(your_target PRIVATE loon::loon)
 ```cpp
 #include <loon/lru.hpp>
 
-loon::LRUCache<int, std::string> cache(100);  // capacity of 100
+loon::LRU<int, std::string> cache(100);  // capacity of 100
 
 cache.put(1, "hello");
 cache.put(2, "world");
