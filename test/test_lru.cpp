@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
 #include <loon/lru.hpp>
 
+#include <gtest/gtest.h>
 #include <string>
 
 class LRUCacheTest : public ::testing::Test {
-protected:
+ protected:
   loon::LRUCache<int, std::string> cache{3};
 };
 

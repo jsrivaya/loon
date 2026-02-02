@@ -1,6 +1,7 @@
-#include <iostream>
 #include <loon/lru.hpp>
 #include <loon/redis_list.hpp>
+
+#include <iostream>
 
 int main() {
   // Test LRUCache

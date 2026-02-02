@@ -6,33 +6,33 @@
 
 namespace loon {
 
-template <typename T> class RedisList {
-public:
+template <typename T>
+class RedisList {
+ public:
   explicit RedisList() {}
   ~RedisList() = default;
 
   // Copy and move semantics
-  RedisList(const RedisList &other) = default;
-  RedisList(RedisList &&other) noexcept = default;
-  explicit RedisList(std::vector<T> &&other)
-      : impl(std::make_move_iterator(other.begin()),
-             std::make_move_iterator(other.end())) {}
-  RedisList &operator=(const RedisList &other) = default;
-  RedisList &operator=(RedisList &&other) noexcept = default;
+  RedisList(const RedisList& other) = default;
+  RedisList(RedisList&& other) noexcept = default;
+  explicit RedisList(std::vector<T>&& other)
+      : impl(std::make_move_iterator(other.begin()), std::make_move_iterator(other.end())) {}
+  RedisList& operator=(const RedisList& other) = default;
+  RedisList& operator=(RedisList&& other) noexcept = default;
 
-  size_t lpush(const T &value) {
+  size_t lpush(const T& value) {
     impl.push_front(value);
     return impl.size();
   }
-  size_t lpush(T &&value) {
+  size_t lpush(T&& value) {
     impl.push_front(std::move(value));
     return impl.size();
   }
-  size_t rpush(const T &value) {
+  size_t rpush(const T& value) {
     impl.push_back(value);
     return impl.size();
   }
-  size_t rpush(T &&value) {
+  size_t rpush(T&& value) {
     impl.push_back(std::move(value));
     return impl.size();
   }
@@ -89,7 +89,7 @@ public:
   size_t size() const { return impl.size(); }
   bool empty() const { return impl.empty(); }
 
-private:
+ private:
   std::deque<T> impl;
 };
 

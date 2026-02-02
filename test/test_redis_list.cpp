@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
 #include <loon/redis_list.hpp>
 
+#include <gtest/gtest.h>
 #include <string>
 
 class RedisListTest : public ::testing::Test {
-protected:
+ protected:
   loon::RedisList<int> list;
 };
 

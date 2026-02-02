@@ -6,11 +6,12 @@
 
 namespace loon {
 
-template <typename K, typename V> class LRUCache {
-public:
+template <typename K, typename V>
+class LRUCache {
+ public:
   explicit LRUCache(size_t size) : capacity(size) {}
 
-  std::optional<std::reference_wrapper<V>> get(const K &key) {
+  std::optional<std::reference_wrapper<V>> get(const K& key) {
     const auto it = map.find(key);
     if (it == map.end())
       return std::nullopt;
@@ -19,7 +20,7 @@ public:
     const auto store_entry_itr = it->second;
     return store_entry_itr->second;
   }
-  void put(const K &key, const V &value) {
+  void put(const K& key, const V& value) {
     const auto it = map.find(key);
     if (it != map.end()) {
       auto store_entry_itr = it->second;
@@ -35,9 +36,9 @@ public:
     }
   }
 
-  bool exists(const K &key) const { return map.find(key) != map.end(); }
+  bool exists(const K& key) const { return map.find(key) != map.end(); }
 
-  void remove(const K &key) {
+  void remove(const K& key) {
     const auto it = map.find(key);
     if (it == map.end())
       return;
@@ -47,12 +48,12 @@ public:
 
   size_t size() const { return store.size(); }
 
-private:
+ private:
   size_t capacity;
   std::list<std::pair<K, V>> store; // MRU at front, LRU at back
   std::unordered_map<K, typename std::list<std::pair<K, V>>::iterator> map;
 
-  void setMRU(const K &key) {
+  void setMRU(const K& key) {
     auto element_itr = map[key];
     store.splice(store.begin(), store, element_itr);
   }
