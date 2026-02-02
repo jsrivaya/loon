@@ -26,8 +26,13 @@ package: ## create conan package and run test_package
 	conan create . --build=missing --profile=$(CONAN_PROFILE)
 
 .PHONY: clean
-clean: ## clean all build files
+clean: ## clean all build and generated files
 	@rm -rf build
+	@rm -rf coverage
+	@rm -rf cppcheck-cache
+	@rm -f cppcheck_report.txt
+	@find . -name "*.gcda" -delete
+	@find . -name "*.gcno" -delete
 
 ################################### Coverage
 COVERAGE_PROFILE ?= profiles/macos-clang14-coverage
