@@ -46,5 +46,8 @@ class LoonLibConan(ConanFile):
              dst=os.path.join(self.package_folder, "include"))
 
     def package_info(self):
+        self.cpp_info.set_property("cmake_file_name", "loon")
+        self.cpp_info.set_property("cmake_target_name", "loon::loon")
+        self.cpp_info.set_property("pkg_config_name", "loon")
         self.cpp_info.bindirs = []
-        self.cpp_info.libdirs = []   
+        self.cpp_info.libdirs = []
