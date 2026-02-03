@@ -20,6 +20,12 @@ write_basic_package_version_file(
     COMPATIBILITY SameMajorVersion
 )
 
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/loonConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/loonConfig.cmake"
+    INSTALL_DESTINATION lib/cmake/loon
+)
+
 install(
     TARGETS loon
     EXPORT loonTargets
@@ -33,6 +39,13 @@ install(
 install(
     EXPORT loonTargets
     NAMESPACE loon::
+    DESTINATION lib/cmake/loon
+)
+
+install(
+    FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/loonConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/loonConfigVersion.cmake"
     DESTINATION lib/cmake/loon
 )
 

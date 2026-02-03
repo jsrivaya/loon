@@ -15,7 +15,7 @@ class LoonLibConan(ConanFile):
 
     package_type = "header-library"
     implements = ["auto_header_only"]
-    exports_sources = "include/*", "test/*", "CMakeLists.txt", "LICENSE"
+    exports_sources = "include/*", "test/*", "cmake/*", "CMakeLists.txt", "LICENSE"
     settings = "os", "arch", "compiler", "build_type"
     generators = "CMakeToolchain", "CMakeDeps"
     no_copy_source = True
