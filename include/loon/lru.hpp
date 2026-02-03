@@ -99,7 +99,7 @@ class LRU {
 
  private:
   size_t capacity;
-  std::list<std::pair<K, V>> store;  ///< MRU at front, LRU at back
+  std::list<std::pair<K, V>> store; ///< MRU at front, LRU at back
   std::unordered_map<K, typename std::list<std::pair<K, V>>::iterator> map;
 
   /// @brief Moves a key to the most recently used position.
@@ -110,4 +110,4 @@ class LRU {
   }
 };
 
-}  // namespace loon
+} // namespace loon

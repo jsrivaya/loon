@@ -169,7 +169,7 @@ class RedisList {
   bool empty() const { return impl.empty(); }
 
  private:
-  std::deque<T> impl;  ///< Underlying container for O(1) operations at both ends.
+  std::deque<T> impl; ///< Underlying container for O(1) operations at both ends.
 };
 
-}  // namespace loon
+} // namespace loon
