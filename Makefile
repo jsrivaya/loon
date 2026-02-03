@@ -29,6 +29,7 @@ package: ## create conan package and run test_package
 clean: ## clean all build and generated files
 	@rm -rf build
 	@rm -rf coverage
+	@rm -rf docs
 	@rm -rf cppcheck-cache
 	@rm -f cppcheck_report.txt
 	@find . -name "*.gcda" -delete
@@ -98,6 +99,18 @@ iwyu: ## Run include-what-you-use analysis
 
 .PHONY: check-all
 check-all: check tidy ## Run all static analysis checks (cppcheck + clang-tidy)
+
+################################### Documentation
+
+.PHONY: docs
+docs: ## Generate Doxygen documentation
+	@doxygen --version || (echo "Install: brew install doxygen" && exit 1)
+	doxygen Doxyfile
+	@echo "Documentation: docs/html/index.html"
+
+.PHONY: docs-clean
+docs-clean: ## Clean generated documentation
+	@rm -rf docs
 
 ################################### Other targets
 
