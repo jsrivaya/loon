@@ -46,6 +46,7 @@ coverage: ## build with coverage and generate HTML report
 	gcovr --root . \
 		  --filter include/ \
 		  --exclude-unreachable-branches \
+		  --xml coverage/coverage.xml \
 		  --html-details $(COVERAGE_DIR)/index.html
 	@echo "Coverage report: $(COVERAGE_DIR)/index.html"
 
