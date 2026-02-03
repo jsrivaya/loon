@@ -1,5 +1,8 @@
 [![Build Status](https://github.com/jsrivaya/loon/actions/workflows/ci.yml/badge.svg)](https://github.com/jsrivaya/loon/actions/workflows/ci.yml)
-
+[![Documentation](https://github.com/jsrivaya/loon/actions/workflows/docs.yml/badge.svg)](https://jsrivaya.github.io/loon/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
+[![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]()
 
 ## loon – High-Performance, Header-Only C++ Library
 
