@@ -5,7 +5,39 @@
 [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
 [![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]()
 
-![Loon](assets/8-pixel-logo.svg)   
+<div class="logo-display" align="center">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); border-radius: 12px; padding: 2rem; width: 100%; text-align: center;">
+      <h1 style="font-family: 'Press Start 2P', monospace; font-size: 32px;
+        margin: 0; color: #1a365d; image-rendering: pixelated; image-rendering: crisp-edges;">
+        loon
+      </h1>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #2d3748; opacity: 0.7; margin: 8px 0 0;">C++ Library - low latency, and maximum performance</p>
+        <svg width="160" height="160" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <!-- 16x16 pixel loon - refined original -->
+            <!-- Body -->
+            <rect x="1" y="10" width="2" height="2" fill="#1a365d"/>
+            <rect x="3" y="9" width="2" height="3" fill="#1a365d"/>
+            <rect x="5" y="8" width="2" height="4" fill="#1a365d"/>
+            <rect x="7" y="9" width="2" height="3" fill="#1a365d"/>
+            <rect x="9" y="10" width="1" height="2" fill="#1a365d"/>
+            <!-- White chest -->
+            <rect x="3" y="10" width="1" height="2" fill="white"/>
+            <rect x="4" y="9" width="2" height="2" fill="white"/>
+            <rect x="6" y="10" width="1" height="1" fill="white"/>
+            <!-- Neck -->
+            <rect x="8" y="7" width="2" height="2" fill="#1a365d"/>
+            <rect x="9" y="5" width="2" height="2" fill="#1a365d"/>
+            <!-- Head -->
+            <rect x="10" y="3" width="3" height="3" fill="#1a365d"/>
+            <!-- Eye -->
+            <rect x="11" y="4" width="1" height="1" fill="white"/>
+            <!-- Beak -->
+            <rect x="13" y="4" width="2" height="1" fill="#4a5568"/>
+        </svg>
+    </div>
+  </foreignObject>
+</div>
 
 ## loon – High-Performance, Header-Only Modern C++ Library
 
