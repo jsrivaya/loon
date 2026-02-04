@@ -2,21 +2,6 @@
 
 #include <gtest/gtest.h>
 
-#include <string>
-
-// Example usage of RingBuffer:
-// loon::RingBuffer<T, N> buffer;  // fixed capacity N
-// bool buffer.push(value);      // add to back
-// std::optional<T> buffer.pop();            // remove from front
-// void discard();              // discards the front element
-// T& buffer.front();          // peek front
-// T& buffer.back();           // peek back
-// bool buffer.full();           // check if full
-// bool buffer.empty();          // check if empty
-// size_t buffer.size();           // current count
-// bool buffer.capacity();       // max capacity
-// bool overrides();               // check buffer configuration for overrides
-
 class RingBufferTest : public ::testing::Test {
  protected:
   loon::RingBuffer<int, 10> buffer;
