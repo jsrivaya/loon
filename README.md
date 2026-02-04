@@ -5,9 +5,12 @@
 [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
 [![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]() 
 
-<svg width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" overflow="hidden">
+<svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" overflow="hidden">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    h1 {
+        font-family: 'Press Start 2P', monospace;
+    }
     .title {
       font-family: 'Press Start 2P', monospace;
       font-size: 32px;
@@ -21,7 +24,7 @@
   </style>
   <foreignObject width="100%" height="100%">
     <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center; padding:20px; background:linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); border-radius:12px;">
-      <h1 style="font-family:'Press Start 2P', monospace; font-size:32px; margin:0; color:#1a365d;">loon</h1>
+      <h1 style="font-size:32px; margin:0; color:#1a365d;">loon</h1>
       <p style="font-family:'JetBrains Mono', monospace; font-size:14px; color:#2d3748; opacity:0.7; margin:8px 0 0;">low latency, maximum performance</p>
         <svg width="160" height="160" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
             <!-- 16x16 pixel loon - refined original -->
