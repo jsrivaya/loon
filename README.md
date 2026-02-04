@@ -28,6 +28,7 @@ Perfect for performance-critical applications in HFT, gaming, embedded systems, 
 |--------|-------------|
 | `loon/lru.hpp` | LRU cache with O(1) get/put operations |
 | `loon/redis_list.hpp` | Redis-style list with lpush/rpush/lpop/rpop/lrange |
+| `loon/ring_buffer.hpp` | Fixed-size ring buffer (circular queue) with O(1) push/pop |
 
 ---
 
@@ -123,6 +124,39 @@ list.llen();  // size
 | `lrange(start, stop)` | O(stop - start) | O(stop - start) |
 | `llen()` / `size()` | O(1) | O(1) |
 | `empty()` | O(1) | O(1) |
+
+#### Ring Buffer
+
+```cpp
+#include <loon/ring_buffer.hpp>
+
+loon::RingBuffer<int, 1024> buffer;          // fixed capacity, reject when full
+loon::RingBuffer<int, 1024> ring(true);      // override oldest when full
+
+buffer.push(42);
+buffer.push(43);
+
+auto val = buffer.pop();       // returns std::optional<int>, removes front
+auto f = buffer.front();       // peek front without removing
+auto b = buffer.back();        // peek back without removing
+
+buffer.discard();              // drop front element without returning it
+buffer.size();                 // current element count
+buffer.empty();                // true if no elements
+buffer.full();                 // true if at capacity
+```
+
+**Ring Buffer Complexity:**
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| `push(value)` | O(1) | O(1) |
+| `pop()` | O(1) | O(1) |
+| `front()` / `back()` | O(1) | O(1) |
+| `discard()` | O(1) | O(1) |
+| `size()` / `empty()` / `full()` | O(1) | O(1) |
+
+**Performance notes:** Stack-allocated `std::array` backing — zero heap allocation, fully contiguous memory layout. Ideal for real-time, embedded, and latency-critical applications.
 
 ---
 
