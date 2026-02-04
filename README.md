@@ -49,7 +49,8 @@
   </foreignObject>
 </svg>
 
-![Logo Text](assets/banner.svg)
+
+![Loon Banner](assets/banner.svg)
 
 ## loon – High-Performance, Header-Only Modern C++ Library
 
