@@ -31,6 +31,11 @@ TEST_F(RingBufferTest, PopEmpty) {
   EXPECT_FALSE(result.has_value());
 }
 
+TEST_F(RingBufferTest, FrontAndBackEmpty) {
+  EXPECT_FALSE(buffer.front().has_value());
+  EXPECT_FALSE(buffer.back().has_value());
+}
+
 TEST_F(RingBufferTest, FrontAndBack) {
   buffer.push(1);
   buffer.push(2);

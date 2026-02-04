@@ -1,7 +1,6 @@
 #include <loon/redis_list.hpp>
 
 #include <gtest/gtest.h>
-#include <string>
 
 class RedisListTest : public ::testing::Test {
  protected:
