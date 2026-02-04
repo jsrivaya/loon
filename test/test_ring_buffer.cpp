@@ -16,19 +16,19 @@ TEST_F(RingBufferTest, EmptyOnConstruction) {
 }
 
 TEST_F(RingBufferTest, PushAndPop) {
-    EXPECT_TRUE(buffer.push(42));
-    EXPECT_EQ(buffer.size(), 1);
-    EXPECT_FALSE(buffer.full());
-    EXPECT_FALSE(buffer.empty());
-    auto value = buffer.pop();
-    ASSERT_TRUE(value.has_value());
-    EXPECT_EQ(value.value(), 42);
-    EXPECT_TRUE(buffer.empty());
+  EXPECT_TRUE(buffer.push(42));
+  EXPECT_EQ(buffer.size(), 1);
+  EXPECT_FALSE(buffer.full());
+  EXPECT_FALSE(buffer.empty());
+  auto value = buffer.pop();
+  ASSERT_TRUE(value.has_value());
+  EXPECT_EQ(value.value(), 42);
+  EXPECT_TRUE(buffer.empty());
 }
 
 TEST_F(RingBufferTest, PopEmpty) {
-    auto result = buffer.pop();
-    EXPECT_FALSE(result.has_value());
+  auto result = buffer.pop();
+  EXPECT_FALSE(result.has_value());
 }
 
 TEST_F(RingBufferTest, FrontAndBack) {
@@ -51,7 +51,7 @@ TEST_F(RingBufferTest, Discard) {
   EXPECT_TRUE(buffer.discard());
   EXPECT_TRUE(buffer.empty());
 
-  EXPECT_FALSE(buffer.discard());  // empty, should fail
+  EXPECT_FALSE(buffer.discard()); // empty, should fail
 }
 
 TEST_F(RingBufferTest, Full) {
@@ -61,17 +61,17 @@ TEST_F(RingBufferTest, Full) {
 
   EXPECT_TRUE(buffer.full());
   EXPECT_EQ(buffer.size(), 10);
-  EXPECT_FALSE(buffer.push(100));  // should fail when full
+  EXPECT_FALSE(buffer.push(100)); // should fail when full
 }
 
 TEST_F(RingBufferTest, OverridePush) {
-    loon::RingBuffer<int, 5> override_buffer(true); // enable overrides
-    for (int i = 0; i < 5; ++i) {
-        EXPECT_TRUE(override_buffer.push(i));
-    }
-    EXPECT_TRUE(override_buffer.full());
-    EXPECT_EQ(override_buffer.size(), 5);
-    EXPECT_TRUE(override_buffer.push(100));  // should succeed, overriding oldest
-    EXPECT_TRUE(override_buffer.full());
-    EXPECT_EQ(override_buffer.size(), 5);
+  loon::RingBuffer<int, 5> override_buffer(true); // enable overrides
+  for (int i = 0; i < 5; ++i) {
+    EXPECT_TRUE(override_buffer.push(i));
+  }
+  EXPECT_TRUE(override_buffer.full());
+  EXPECT_EQ(override_buffer.size(), 5);
+  EXPECT_TRUE(override_buffer.push(100)); // should succeed, overriding oldest
+  EXPECT_TRUE(override_buffer.full());
+  EXPECT_EQ(override_buffer.size(), 5);
 }
