@@ -19,14 +19,53 @@ class RingBuffer {
     /// @brief Pushes a value to the back of the buffer.
     /// @param value The value to push (copied).
     bool push(const T& value) {
-        if (full() && !override) {
-            return false;
+        if (full()) {
+            if (!override) {
+                return false;
+            }
+            // advance read pointer to discard oldest
+            read = (read + 1) % N;
+        } else {
+            ++count;
         }
-        head = head + 1 % N;
-        buffer[head] = value;
-        ++count;
+        buffer[write] = value;
+        write = (write + 1) % N;
+
         return true;
     }
+
+    std::optional<T> pop() {
+        if (empty()) {
+            return std::nullopt;
+        }
+        T value = buffer[read];
+        read = (read + 1) % N;
+        --count;
+        return value;
+    }
+
+    std::optional<T> front() {
+        if (empty()) {
+            return std::nullopt;
+        }
+        return buffer[read];
+    }
+
+    std::optional<T> back() {
+        if (empty()) {
+            return std::nullopt;
+        }
+        return buffer[(write - 1 + N) % N];
+    }
+
+    bool discard() {
+        if (empty()) {
+            return false;
+        }
+        read = (read + 1) % N;
+        --count;
+        return true;
+    }    
 
     size_t capacity() const {
         return N;
@@ -50,8 +89,8 @@ class RingBuffer {
 
     private:
     std::array<T, N> buffer;
-    size_t head = 0;
-    size_t tail = 0;
+    size_t write = 0;
+    size_t read = 0;
     size_t count = 0;
     bool override = false;
 };
