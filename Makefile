@@ -21,6 +21,10 @@ all: build
 build: ## build library and run tests
 	conan build . --build=missing --profile=$(CONAN_PROFILE)
 
+.PHONY: test
+test: ## run unit tests (RERUN=1 to rerun failed only)
+	cd build/Release && ctest --output-on-failure $(if $(RERUN),--rerun-failed)
+
 .PHONY: package
 package: ## create conan package and run test_package
 	conan create . --build=missing --profile=$(CONAN_PROFILE)
