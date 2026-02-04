@@ -3,16 +3,26 @@
 [![Documentation](https://github.com/jsrivaya/loon/actions/workflows/docs.yml/badge.svg)](https://jsrivaya.github.io/loon/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
-[![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]()
+[![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]() 
 
-<div class="logo-display" align="center">
+<svg width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" overflow="hidden">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    .title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 32px;
+      fill: #1a365d;
+    }
+    .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      fill: #2d3748;
+    }
+  </style>
   <foreignObject width="100%" height="100%">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); border-radius: 12px; padding: 2rem; width: 100%; text-align: center;">
-      <h1 style="font-family: 'Press Start 2P', monospace; font-size: 32px;
-        margin: 0; color: #1a365d; image-rendering: pixelated; image-rendering: crisp-edges;">
-        loon
-      </h1>
-      <p style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #2d3748; opacity: 0.7; margin: 8px 0 0;">C++ Library - low latency, and maximum performance</p>
+    <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center; padding:20px; background:linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); border-radius:12px;">
+      <h1 style="font-family:'Press Start 2P', monospace; font-size:32px; margin:0; color:#1a365d;">loon</h1>
+      <p style="font-family:'JetBrains Mono', monospace; font-size:14px; color:#2d3748; opacity:0.7; margin:8px 0 0;">low latency, maximum performance</p>
         <svg width="160" height="160" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
             <!-- 16x16 pixel loon - refined original -->
             <!-- Body -->
@@ -37,7 +47,9 @@
         </svg>
     </div>
   </foreignObject>
-</div>
+</svg>
+
+![Logo Text](assets/banner.svg)
 
 ## loon – High-Performance, Header-Only Modern C++ Library
 
