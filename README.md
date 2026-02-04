@@ -5,9 +5,15 @@
 [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
 [![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]() 
 
-<svg width="600" height="250" viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" overflow="hidden">
+<svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" overflow="hidden">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    @font-face {
+        font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+        font-family: 'Press Start 2P';
+        font-style: normal;
+        font-weight: 400;
+        src: url('../fonts/press-start-2p-v16-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+    }
     h1 {
         font-family: 'Press Start 2P', monospace;
     }
