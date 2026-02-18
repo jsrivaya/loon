@@ -33,6 +33,7 @@ Perfect for performance-critical applications in HFT, gaming, embedded systems, 
 | `loon/lru.hpp` | LRU cache with O(1) get/put operations |
 | `loon/redis_list.hpp` | Redis-style list with lpush/rpush/lpop/rpop/lrange |
 | `loon/ring_buffer.hpp` | Fixed-size ring buffer (circular queue) with O(1) push/pop |
+| `loon/spsc.hpp` | Lock-free single-producer single-consumer queue |
 
 ---
 
@@ -161,6 +162,39 @@ buffer.full();                 // true if at capacity
 | `size()` / `empty()` / `full()` | O(1) | O(1) |
 
 **Performance notes:** Stack-allocated `std::array` backing — zero heap allocation, fully contiguous memory layout. Ideal for real-time, embedded, and latency-critical applications.
+
+#### SPSC Queue
+
+```cpp
+#include <loon/spsc.hpp>
+
+loon::SpscQueue<int, 1024> queue;  // fixed capacity of 1024
+
+// Producer thread
+queue.push(42);
+queue.push(43);
+
+// Consumer thread
+int value;
+if (queue.pop(value)) {
+    std::cout << value << std::endl;  // 42
+}
+
+queue.empty();     // check if empty
+queue.full();      // check if full
+queue.capacity();  // 1024
+```
+
+**SPSC Queue Complexity:**
+
+| Operation | Time | Space |
+|-----------|------|-------|
+| `push(value)` | O(1) | O(1) |
+| `pop(value)` | O(1) | O(1) |
+| `empty()` / `full()` | O(1) | O(1) |
+| `capacity()` | O(1) | O(1) |
+
+**Performance notes:** Lock-free implementation using atomic operations. Safe for exactly one producer thread and one consumer thread without any mutexes. Ideal for inter-thread communication in real-time and low-latency systems.
 
 ---
 
