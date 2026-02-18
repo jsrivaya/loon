@@ -78,7 +78,7 @@ jobs:
 
       - name: Check clang-format
         run: |
-          find . -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --dry-run -Werror
+          find . -iname "*.hpp" -o -iname "*.cpp" | xargs clang-format --style=file --dry-run -Werror
 
   static-analysis:
     runs-on: ubuntu-latest
