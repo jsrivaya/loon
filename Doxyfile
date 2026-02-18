@@ -52,6 +52,7 @@ HTML_OUTPUT            = html
 HTML_FILE_EXTENSION    = .html
 GENERATE_TREEVIEW      = YES
 TREEVIEW_WIDTH         = 250
+HTML_EXTRA_STYLESHEET  = docs/css/doxygen-awesome.css
 
 GENERATE_LATEX         = NO
 GENERATE_RTF           = NO
