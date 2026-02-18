@@ -15,7 +15,7 @@ class SpscQueue {
   /// The actual buffer size is N+1 to distinguish between full and empty states.
   /// @example
   /// loon::SpscQueue<int, 3> queue;
-  SpscQueue() : capacity_(N + 1) {};
+  SpscQueue() : capacity_(N + 1) {}
 
   /// @brief Pushes a value to the back of the queue.
   /// @param value The value to push (copied).
