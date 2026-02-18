@@ -28,6 +28,9 @@ jobs:
       - name: Generate documentation
         run: make docs
 
+      - name: Copy assets
+        run: cp -r assets docs/html
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
