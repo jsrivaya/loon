@@ -1,6 +1,6 @@
 build
 coverage
-docs
+docs/html
 cppcheck-cache
 cppcheck_report.txt
 CMakeUserPresets.json
