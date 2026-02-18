@@ -3,11 +3,27 @@
 
 namespace loon {
 
+/// @brief A lock-free single-producer single-consumer (SPSC) queue with fixed capacity.
+///
+/// SpscQueue provides O(1) push and pop operations without locks, suitable for
+/// communication between a single producer thread and a single consumer thread. The
+/// capacity is fixed at compile time and the queue will reject new elements when full.
 template <typename T, size_t N>
 class SpscQueue {
  public:
+  /// @brief Constructs an empty SpscQueue with a fixed capacity of N.
+  /// The actual buffer size is N+1 to distinguish between full and empty states.
+  /// @example
+  /// loon::SpscQueue<int, 3> queue;
   SpscQueue() : capacity_(N + 1) {};
 
+  /// @brief Pushes a value to the back of the queue.
+  /// @param value The value to push (copied).
+  /// @return true if the value was added, false if the queue is full.
+  /// This method is safe to call from the producer thread.
+  /// @example
+  /// loon::SpscQueue<int, 3> queue;
+  /// queue.push(42);
   bool push(const T& value) {
     auto tail = tail_.load(std::memory_order_relaxed);
     auto head = head_.load(std::memory_order_acquire);
@@ -20,6 +36,15 @@ class SpscQueue {
     return true;
   }
 
+  /// @brief Pops a value from the front of the queue.
+  /// @param value The value popped from the queue (output).
+  /// @return true if a value was popped, false if the queue is empty.
+  /// This method is safe to call from the consumer thread.
+  /// @example
+  /// int value;
+  /// if (queue.pop(value)) {
+  ///     // use value
+  /// }
   bool pop(T& value) {
     auto tail = tail_.load(std::memory_order_acquire);
     auto head = head_.load(std::memory_order_relaxed);
@@ -32,12 +57,20 @@ class SpscQueue {
     return true;
   }
 
+  /// @brief   Returns the maximum number of elements the queue can hold.
+  /// @return The maximum number of elements the queue can hold.
+  /// The actual buffer size is N+1, but the usable capacity is N.
   size_t capacity() const { return capacity_ - 1; }
 
+  /// @brief  Checks if the queue is empty.
+  /// @return true if the queue is empty, false otherwise.
   bool empty() const { return head_ == tail_; }
 
+  /// @brief Checks if the queue is full.
+  /// @return true if the queue is full, false otherwise.
   bool full() const {
-    return (tail_.load(std::memory_order_acquire) + 1) % capacity_ == head_.load(std::memory_order_acquire);
+    return (tail_.load(std::memory_order_acquire) + 1) % capacity_ ==
+           head_.load(std::memory_order_acquire);
   }
 
  private:
