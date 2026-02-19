@@ -8,6 +8,18 @@ namespace loon {
 /// SpscQueue provides O(1) push and pop operations without locks, suitable for
 /// communication between a single producer thread and a single consumer thread. The
 /// capacity is fixed at compile time and the queue will reject new elements when full.
+///
+/// @tparam T The element type to store.
+/// @tparam N The maximum number of elements the queue can hold (must be > 0).
+/// @par Example
+/// @code
+/// loon::SpscQueue<int, 3> queue;
+/// queue.push(42);
+/// int value;
+/// if (queue.pop(value)) {
+///     // use value
+/// }
+/// @endcode
 template <typename T, size_t N>
 class SpscQueue {
  public:
