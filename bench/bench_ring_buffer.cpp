@@ -1,8 +1,7 @@
 #include <loon/ring_buffer.hpp>
 
-#include <benchmark/benchmark.h>
-
 #include <array>
+#include <benchmark/benchmark.h>
 #include <cstdint>
 #include <queue>
 
@@ -13,19 +12,19 @@
 struct Msg16B {
   int64_t id;
   int64_t timestamp;
-};  // 16 bytes
+}; // 16 bytes
 
 struct Msg64B {
   int64_t id;
   int64_t timestamp;
   std::array<char, 48> payload;
-};  // 64 bytes
+}; // 64 bytes
 
 struct Msg256B {
   int64_t id;
   int64_t timestamp;
   std::array<char, 240> payload;
-};  // 256 bytes
+}; // 256 bytes
 
 // ----------------------------------------------------------------------------
 // loon::RingBuffer benchmarks
