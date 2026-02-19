@@ -90,6 +90,7 @@ class SpscQueue {
   T data_[N + 1];
   std::atomic<size_t> head_{0};
   std::atomic<size_t> tail_{0};
+  static_assert(std::atomic<size_t>::is_always_lock_free, "SpscQueue requires lock-free atomics");
 };
 
 } // namespace loon
