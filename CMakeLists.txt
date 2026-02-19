@@ -60,4 +60,10 @@ option(LOON_BUILD_TESTS "Build tests" OFF)
 if(LOON_BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
+endif()
+
+# Benchmarks
+option(LOON_BUILD_BENCHMARKS "Build benchmarks" OFF)
+if(LOON_BUILD_BENCHMARKS)
+    add_subdirectory(bench)
 endif()   

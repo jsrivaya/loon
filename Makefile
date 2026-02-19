@@ -29,6 +29,20 @@ test: ## run unit tests (RERUN=1 to rerun failed only)
 package: ## create conan package and run test_package
 	conan create . --build=missing --profile=$(CONAN_PROFILE)
 
+################################### Benchmarks
+
+.PHONY: bench-deps
+bench-deps: ## install benchmark dependencies
+	conan install . --build=missing --profile=$(CONAN_PROFILE) -o with_benchmarks=True
+
+.PHONY: bench-build
+bench-build: ## build benchmarks
+	conan build . --build=missing --profile=$(CONAN_PROFILE) -o with_benchmarks=True
+
+.PHONY: bench
+bench: ## run benchmarks
+	./build/Release/bench/loon_benchmarks
+
 .PHONY: clean
 clean: ## clean all build and generated files
 	@rm -rf build
@@ -63,7 +77,7 @@ coverage-clean: ## clean coverage data
 ################################### Static Analysis
 CPPCHECK_CACHE_DIR ?= cppcheck-cache
 
-SOURCES := $(shell find include test test_package -iname "*.hpp" -o -iname "*.cpp")
+SOURCES := $(shell find include test test_package bench -iname "*.hpp" -o -iname "*.cpp" 2>/dev/null)
 
 .PHONY: check-format
 check-format: ## Check clang format errors

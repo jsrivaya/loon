@@ -15,24 +15,29 @@ class LoonLibConan(ConanFile):
 
     package_type = "header-library"
     implements = ["auto_header_only"]
-    exports_sources = "include/*", "test/*", "cmake/*", "CMakeLists.txt", "LICENSE"
+    exports_sources = "include/*", "test/*", "bench/*", "cmake/*", "CMakeLists.txt", "LICENSE"
     settings = "os", "arch", "compiler", "build_type"
     generators = "CMakeToolchain", "CMakeDeps"
     no_copy_source = True
 
-    options = {"with_tests": [True, False]}
-    default_options = {"with_tests": True}
+    options = {"with_tests": [True, False], "with_benchmarks": [True, False]}
+    default_options = {"with_tests": True, "with_benchmarks": False}
 
     def build_requirements(self):
         if self.options.with_tests:
             self.test_requires("gtest/1.14.0")
+        if self.options.with_benchmarks:
+            self.test_requires("benchmark/1.9.4")
 
     def layout(self):
         cmake_layout(self)
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(variables={"LOON_BUILD_TESTS": "ON" if self.options.with_tests else "OFF"})
+        cmake.configure(variables={
+            "LOON_BUILD_TESTS": "ON" if self.options.with_tests else "OFF",
+            "LOON_BUILD_BENCHMARKS": "ON" if self.options.with_benchmarks else "OFF",
+        })
         cmake.build()
         if self.options.with_tests:
             cmake.test()
