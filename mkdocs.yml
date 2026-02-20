@@ -1,0 +1,90 @@
+site_name: loon
+site_description: High-performance header-only C++ library for low-latency applications
+site_url: https://jsrivaya.github.io/loon/
+repo_url: https://github.com/jsrivaya/loon
+repo_name: jsrivaya/loon
+docs_dir: docs-src
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - mkdoxy:
+      projects:
+        loon:
+          src-dirs: include/loon
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.hpp"
+            RECURSIVE: True
+            EXTRACT_ALL: True
+            EXTRACT_PRIVATE: False
+            EXTRACT_STATIC: True
+            JAVADOC_AUTOBRIEF: True
+            BRIEF_MEMBER_DESC: True
+            GENERATE_XML: True
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/jsrivaya/loon
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Data Structures:
+      - Ring Buffer: data-structures/ring-buffer.md
+      - LRU Cache: data-structures/lru-cache.md
+      - Redis List: data-structures/redis-list.md
+      - SPSC Queue: data-structures/spsc-queue.md
+  - Benchmarks: benchmarks.md
+  - API Reference:
+      - Overview: api.md
+      - Classes: loon/annotated.md
+      - Namespaces: loon/namespaces.md
+      - Files: loon/files.md

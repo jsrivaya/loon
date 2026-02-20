@@ -1,6 +1,7 @@
 build
 coverage
-docs/html
+site
+.venv-docs
 cppcheck-cache
 cppcheck_report.txt
 CMakeUserPresets.json

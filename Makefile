@@ -47,7 +47,7 @@ bench: ## run benchmarks
 clean: ## clean all build and generated files
 	@rm -rf build
 	@rm -rf coverage
-	@rm -rf docs
+	@rm -rf site
 	@rm -rf cppcheck-cache
 	@rm -f cppcheck_report.txt
 	@find . -name "*.gcda" -delete
@@ -120,16 +120,30 @@ iwyu: ## Run include-what-you-use analysis
 check-all: check tidy ## Run all static analysis checks (cppcheck + clang-tidy)
 
 ################################### Documentation
+DOCS_VENV := .venv-docs
+
+.PHONY: docs-setup
+docs-setup: ## Setup Python venv and install docs dependencies
+	@python3 -m venv $(DOCS_VENV)
+	@$(DOCS_VENV)/bin/pip install --upgrade pip
+	@$(DOCS_VENV)/bin/pip install -r docs-src/requirements.txt
+	@echo "Docs environment ready. Run 'make docs' or 'make docs-serve'"
 
 .PHONY: docs
-docs: ## Generate Doxygen documentation
-	@doxygen --version || (echo "Install: brew install doxygen" && exit 1)
-	doxygen Doxyfile
-	@echo "Documentation: docs/html/index.html"
+docs: ## Build documentation site
+	@test -d $(DOCS_VENV) || (echo "Run 'make docs-setup' first" && exit 1)
+	$(DOCS_VENV)/bin/mkdocs build
+	@echo "Documentation: site/index.html"
+
+.PHONY: docs-serve
+docs-serve: ## Serve documentation locally with hot-reload
+	@test -d $(DOCS_VENV) || (echo "Run 'make docs-setup' first" && exit 1)
+	$(DOCS_VENV)/bin/mkdocs serve
 
 .PHONY: docs-clean
 docs-clean: ## Clean generated documentation
-	@rm -rf docs
+	@rm -rf site
+	@rm -rf $(DOCS_VENV)
 
 ################################### Other targets
 

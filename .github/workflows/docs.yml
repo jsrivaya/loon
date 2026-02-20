@@ -20,16 +20,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Install Doxygen
         run: |
           sudo apt-get update
-          sudo apt-get install -y doxygen graphviz
+          sudo apt-get install -y doxygen
 
-      - name: Generate documentation
-        run: make docs
+      - name: Install MkDocs and dependencies
+        run: |
+          pip install mkdocs-material mkdoxy
+
+      - name: Build documentation
+        run: mkdocs build
 
       - name: Copy assets
-        run: cp -r assets docs/html
+        run: cp -r assets site/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -37,7 +46,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/html
+          path: site
 
   deploy:
     environment:
