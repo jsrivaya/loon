@@ -64,12 +64,33 @@ queue.capacity();  // 1024
 !!! warning "Single Producer, Single Consumer Only"
     This queue is designed for exactly **one** producer thread and **one** consumer thread. Using multiple producers or multiple consumers leads to undefined behavior.
 
-## Performance Notes
+## Performance
 
-- Lock-free implementation using atomic operations
-- No mutexes or locks required
-- Safe for exactly one producer and one consumer thread
-- Ideal for inter-thread communication in real-time and low-latency systems
+**3.4x faster** than mutex-protected queues in benchmarks.
+
+### Round-Trip Latency (push + pop)
+
+| Message Size | SpscQueue | MutexQueue | Speedup |
+|--------------|-----------|------------|---------|
+| 16 bytes | 12.6 ns | 42.4 ns | 3.4x |
+| 64 bytes | 12.6 ns | 43.5 ns | 3.5x |
+| 256 bytes | 24.7 ns | 52.3 ns | 2.1x |
+
+### Multi-threaded Producer/Consumer
+
+| Items | SpscQueue | MutexQueue | Speedup |
+|-------|-----------|------------|---------|
+| 4,096 | 114.9M ops/s | 25.8M ops/s | 4.5x |
+| 65,536 | 90.7M ops/s | 23.1M ops/s | 3.9x |
+
+See [Benchmarks](../benchmarks.md) for full results.
+
+### Why It's Fast
+
+- **Lock-free**: Uses atomic operations instead of mutex locks
+- **No contention**: Designed for exactly one producer and one consumer
+- **Minimal synchronization**: Only acquire/release memory ordering where needed
+- **Cache-friendly**: Head and tail indices fit in cache lines
 
 ## Typical Use Cases
 
