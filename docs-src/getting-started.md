@@ -8,14 +8,14 @@ Add to your `conanfile.txt`:
 
 ```ini
 [requires]
-loon/0.1.0
+loon/0.2.0
 ```
 
 Or `conanfile.py`:
 
 ```python
 def requirements(self):
-    self.requires("loon/0.1.0")
+    self.requires("loon/0.2.0")
 ```
 
 ### Header-only (manual)
