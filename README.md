@@ -67,13 +67,13 @@ See [full benchmarks](https://jsrivaya.github.io/loon/benchmarks/) for detailed 
 ```ini
 # conanfile.txt
 [requires]
-loon/0.1.0
+loon/0.2.0
 ```
 
 ```python
 # conanfile.py
 def requirements(self):
-    self.requires("loon/0.1.0")
+    self.requires("loon/0.2.0")
 ```
 
 ### Header-only (manual)
