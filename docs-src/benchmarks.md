@@ -9,7 +9,7 @@ Performance benchmarks comparing loon data structures against standard library a
 | [RingBuffer](data-structures/ring-buffer.md) | 0.95 ns | 2.1G ops/s | **3.2x faster** |
 | [SPSC Queue](data-structures/spsc-queue.md) | 9.1 ns | 220M ops/s | **3.4x faster** |
 | [LRU Cache](data-structures/lru-cache.md) | 7.8 ns | 130M ops/s | O(1) ops |
-| Redis List | - | - | - |
+| [Redis List](data-structures/redis-list.md) | 0.33 ns | 560M ops/s | **22x** vs std::list |
 
 ## RingBuffer vs std::queue
 
@@ -99,6 +99,45 @@ Comparison with raw hash map (no LRU eviction):
 | `put` (string key) | 448 ns |
 | `get` (string key) | 108 ns |
 
+## Redis List
+
+Redis-compatible list with efficient O(1) operations at both ends.
+
+### Operation Latency
+
+| Operation | Time | Throughput |
+|-----------|------|------------|
+| `lpush` / `rpush` | 4.4 ns | 520M ops/s |
+| `lpop` / `rpop` | 28 ns | 35M ops/s |
+| Interleaved push/pop | 3.6 ns | **560M ops/s** |
+| `lrange` (10 elements) | 92 ns | 109M ops/s |
+| `llen` | 0.33 ns | **3B ops/s** |
+
+### Value Size Impact
+
+| Value Size | Time | Throughput |
+|------------|------|------------|
+| 16 bytes | 3.8 ns | 7.8 GiB/s |
+| 64 bytes | 7.3 ns | 16.3 GiB/s |
+| 256 bytes | 22.6 ns | 21.1 GiB/s |
+
+### Redis List vs std::list
+
+| Operation | RedisList | std::list | Speedup |
+|-----------|-----------|-----------|---------|
+| push (4096 items) | 8.2 µs | 564 µs | **69x** |
+| pop (4096 items) | 11.8 µs | 320 µs | **27x** |
+| Interleaved | 3.6 ns | 78.5 ns | **22x** |
+
+### Batch Operations
+
+| Batch Size | lpop(n) | Throughput |
+|------------|---------|------------|
+| 1 | 394 µs | 10M ops/s |
+| 10 | 44 µs | 93M ops/s |
+| 100 | 12 µs | 337M ops/s |
+| 1000 | 5.2 µs | 790M ops/s |
+
 ## Running Benchmarks
 
 ```bash
@@ -148,6 +187,13 @@ make bench
 2. **Intrusive list**: Recency updates move list nodes without allocation
 3. **Single eviction**: Only the LRU item is removed when full
 4. **Reference semantics**: `get` returns a reference wrapper, avoiding copies
+
+## Why Redis List is Fast
+
+1. **Deque backing**: Uses `std::deque` for O(1) operations at both ends
+2. **Cache-friendly**: Contiguous chunk storage vs linked list nodes
+3. **No allocation per element**: Deque allocates in chunks
+4. **Move semantics**: Supports efficient moves for large values
 
 ## Understanding the Metrics
 
