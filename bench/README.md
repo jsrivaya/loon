@@ -19,14 +19,19 @@ make bench
 
 | Component | Best Latency | Peak Throughput | vs std:: |
 |-----------|--------------|-----------------|----------|
-| [RingBuffer](RING_BUFFER.md) | 0.95 ns | 2.1G ops/s | **3.2x faster** |
-| LRU Cache | - | - | - |
-| Redis List | - | - | - |
-| SPSC Queue | - | - | - |
+| RingBuffer | 0.95 ns | 2.1G ops/s | **3.2x faster** |
+| SPSC Queue | 12.6 ns | 115M ops/s | **3.4x faster** |
+| LRU Cache | 7.8 ns | 130M ops/s | O(1) ops |
 
-## Detailed Results
+See [full benchmark documentation](https://jsrivaya.github.io/loon/benchmarks/) for detailed results.
 
-- [RingBuffer Benchmarks](RING_BUFFER.md) - Comparison with std::queue
+## Benchmark Files
+
+| File | Description |
+|------|-------------|
+| `bench_ring_buffer.cpp` | RingBuffer vs std::queue |
+| `bench_spsc.cpp` | SPSC Queue vs mutex-protected queue |
+| `bench_lru.cpp` | LRU Cache operations and comparisons |
 
 ## Test Environment
 
@@ -40,6 +45,8 @@ make bench
 ```bash
 # Filter specific benchmarks
 ./build/Release/bench/loon_benchmarks --benchmark_filter="RingBuffer"
+./build/Release/bench/loon_benchmarks --benchmark_filter="Spsc"
+./build/Release/bench/loon_benchmarks --benchmark_filter="LRU"
 
 # Output to JSON for analysis
 ./build/Release/bench/loon_benchmarks --benchmark_format=json > results.json
@@ -74,18 +81,44 @@ make bench
 | `RingBuffer/RoundTrip/*` | Single push+pop for different message sizes |
 | `RingBuffer/Throughput/*` | Batch operations for different sizes |
 
+### SPSC Queue Benchmarks
+
+| Benchmark | Description |
+|-----------|-------------|
+| `BM_SpscQueue_Push/N` | Push N elements |
+| `BM_SpscQueue_Pop/N` | Pop N elements |
+| `BM_SpscQueue_PushPop_Interleaved` | Single-threaded push+pop |
+| `SpscQueue/RoundTrip/*` | Round-trip for different message sizes |
+| `SpscQueue/Throughput/*` | Batch throughput for different sizes |
+| `BM_SpscQueue_ProducerConsumer/N` | Multi-threaded producer/consumer |
+
+### LRU Cache Benchmarks
+
+| Benchmark | Description |
+|-----------|-------------|
+| `BM_LRU_Put/N` | Put operations with cache size N |
+| `BM_LRU_Get_Hit/N` | Get operations (cache hits) |
+| `BM_LRU_Get_Miss/N` | Get operations (cache misses) |
+| `BM_LRU_PutGet_Mixed/N` | 80% reads, 20% writes workload |
+| `BM_LRU_Exists/N` | Key existence checks |
+| `LRU/PutGet/*` | Mixed ops for different value sizes |
+| `BM_LRU_StringKey_*` | String key operations |
+| `BM_LRU_Eviction_Stress` | Continuous eviction scenario |
+| `BM_LRU_Random_Access/N` | Random access pattern |
+
 ### Comparison Benchmarks
 
 | Benchmark | Description |
 |-----------|-------------|
-| `BM_StdQueue_*` | Equivalent operations using std::queue |
-| `std::queue/RoundTrip/*` | Round-trip comparison for message sizes |
+| `BM_StdQueue_*` | std::queue equivalents |
+| `BM_MutexQueue_*` | Mutex-protected queue equivalents |
+| `BM_UnorderedMap_*` | std::unordered_map equivalents |
 
 ## Adding New Benchmarks
 
 1. Add benchmark function in `bench_<component>.cpp`
 2. Register with `BENCHMARK()`
-3. Update [bench/CMakeLists.txt](CMakeLists.txt) if adding new files
+3. Update [CMakeLists.txt](CMakeLists.txt) if adding new files
 
 Example:
 
