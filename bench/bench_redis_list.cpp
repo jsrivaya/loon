@@ -173,7 +173,7 @@ static void BM_RedisList_LRange_Small(benchmark::State& state) {
   }
 
   for (auto _ : state) {
-    auto range = list.lrange(0, 9);  // First 10 elements
+    auto range = list.lrange(0, 9); // First 10 elements
     benchmark::DoNotOptimize(range);
   }
   state.SetItemsProcessed(state.iterations() * 10);
@@ -187,7 +187,7 @@ static void BM_RedisList_LRange_Medium(benchmark::State& state) {
   }
 
   for (auto _ : state) {
-    auto range = list.lrange(0, 99);  // First 100 elements
+    auto range = list.lrange(0, 99); // First 100 elements
     benchmark::DoNotOptimize(range);
   }
   state.SetItemsProcessed(state.iterations() * 100);
@@ -202,7 +202,7 @@ static void BM_RedisList_LRange_All(benchmark::State& state) {
   }
 
   for (auto _ : state) {
-    auto range = list.lrange(0, -1);  // All elements
+    auto range = list.lrange(0, -1); // All elements
     benchmark::DoNotOptimize(range);
   }
   state.SetItemsProcessed(state.iterations() * static_cast<int64_t>(count));
@@ -216,7 +216,7 @@ static void BM_RedisList_LRange_Tail(benchmark::State& state) {
   }
 
   for (auto _ : state) {
-    auto range = list.lrange(-10, -1);  // Last 10 elements
+    auto range = list.lrange(-10, -1); // Last 10 elements
     benchmark::DoNotOptimize(range);
   }
   state.SetItemsProcessed(state.iterations() * 10);
