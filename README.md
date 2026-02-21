@@ -54,6 +54,7 @@ Perfect for **HFT**, **gaming**, **embedded systems**, and **real-time processin
 | SpscQueue producer/consumer | 115M ops/s | 26M ops/s | 4.5x |
 | LRU Cache get (hit) | 15 ns | - | 67M ops/s |
 | LRU Cache exists | 7.8 ns | - | 130M ops/s |
+| RedisList push/pop | 3.6 ns | 78.5 ns | 22x vs std::list |
 
 See [full benchmarks](https://jsrivaya.github.io/loon/benchmarks/) for detailed results.
 

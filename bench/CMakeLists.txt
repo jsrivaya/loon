@@ -4,6 +4,7 @@ add_executable(loon_benchmarks
     bench_ring_buffer.cpp
     bench_spsc.cpp
     bench_lru.cpp
+    bench_redis_list.cpp
 )
 
 target_link_libraries(loon_benchmarks

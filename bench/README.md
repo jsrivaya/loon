@@ -22,6 +22,7 @@ make bench
 | RingBuffer | 0.95 ns | 2.1G ops/s | **3.2x faster** |
 | SPSC Queue | 12.6 ns | 115M ops/s | **3.4x faster** |
 | LRU Cache | 7.8 ns | 130M ops/s | O(1) ops |
+| Redis List | 0.33 ns | 560M ops/s | **22x** vs std::list |
 
 See [full benchmark documentation](https://jsrivaya.github.io/loon/benchmarks/) for detailed results.
 
@@ -32,6 +33,7 @@ See [full benchmark documentation](https://jsrivaya.github.io/loon/benchmarks/) 
 | `bench_ring_buffer.cpp` | RingBuffer vs std::queue |
 | `bench_spsc.cpp` | SPSC Queue vs mutex-protected queue |
 | `bench_lru.cpp` | LRU Cache operations and comparisons |
+| `bench_redis_list.cpp` | Redis List vs std::deque and std::list |
 
 ## Test Environment
 
@@ -47,6 +49,7 @@ See [full benchmark documentation](https://jsrivaya.github.io/loon/benchmarks/) 
 ./build/Release/bench/loon_benchmarks --benchmark_filter="RingBuffer"
 ./build/Release/bench/loon_benchmarks --benchmark_filter="Spsc"
 ./build/Release/bench/loon_benchmarks --benchmark_filter="LRU"
+./build/Release/bench/loon_benchmarks --benchmark_filter="RedisList"
 
 # Output to JSON for analysis
 ./build/Release/bench/loon_benchmarks --benchmark_format=json > results.json
@@ -106,6 +109,21 @@ See [full benchmark documentation](https://jsrivaya.github.io/loon/benchmarks/) 
 | `BM_LRU_Eviction_Stress` | Continuous eviction scenario |
 | `BM_LRU_Random_Access/N` | Random access pattern |
 
+### Redis List Benchmarks
+
+| Benchmark | Description |
+|-----------|-------------|
+| `BM_RedisList_LPush/N` | Push N elements to front |
+| `BM_RedisList_RPush/N` | Push N elements to back |
+| `BM_RedisList_LPop/N` | Pop N elements from front |
+| `BM_RedisList_RPop/N` | Pop N elements from back |
+| `BM_RedisList_PushPop_Interleaved` | Steady-state push/pop |
+| `BM_RedisList_LPop_Batch/N` | Batch pop of N elements |
+| `BM_RedisList_LRange_*` | Range query benchmarks |
+| `BM_RedisList_LLen` | Size check |
+| `RedisList/PushPop/*` | Different value sizes |
+| `BM_RedisList_Mixed_Workload` | Realistic usage pattern |
+
 ### Comparison Benchmarks
 
 | Benchmark | Description |
@@ -113,6 +131,8 @@ See [full benchmark documentation](https://jsrivaya.github.io/loon/benchmarks/) 
 | `BM_StdQueue_*` | std::queue equivalents |
 | `BM_MutexQueue_*` | Mutex-protected queue equivalents |
 | `BM_UnorderedMap_*` | std::unordered_map equivalents |
+| `BM_StdDeque_*` | std::deque equivalents |
+| `BM_StdList_*` | std::list equivalents |
 
 ## Adding New Benchmarks
 
