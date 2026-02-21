@@ -52,6 +52,8 @@ Perfect for **HFT**, **gaming**, **embedded systems**, and **real-time processin
 | RingBuffer round-trip (16B) | 1.9 ns | 6.1 ns | 3.2x |
 | SpscQueue round-trip (16B) | 12.6 ns | 42.4 ns | 3.4x |
 | SpscQueue producer/consumer | 115M ops/s | 26M ops/s | 4.5x |
+| LRU Cache get (hit) | 15 ns | - | 67M ops/s |
+| LRU Cache exists | 7.8 ns | - | 130M ops/s |
 
 See [full benchmarks](https://jsrivaya.github.io/loon/benchmarks/) for detailed results.
 
