@@ -60,6 +60,55 @@ cache.size();     // 1
 | `remove(key)` | O(1) | O(1) |
 | `size()` | O(1) | O(1) |
 
+## Performance
+
+### Operation Latency
+
+| Operation | Time | Throughput |
+|-----------|------|------------|
+| `get` (hit) | 15.0 ns | 67M ops/s |
+| `get` (miss) | 10.6 ns | 95M ops/s |
+| `put` | 255 ns | 4M ops/s |
+| `exists` | 7.8 ns | 130M ops/s |
+| Mixed (80% read, 20% write) | 68 ns | 15M ops/s |
+
+### Value Size Impact
+
+| Value Size | Time | Throughput |
+|------------|------|------------|
+| 16 bytes | 13.6 ns | 1.1 GiB/s |
+| 64 bytes | 14.2 ns | 4.2 GiB/s |
+| 256 bytes | 16.3 ns | 14.7 GiB/s |
+
+### vs std::unordered_map
+
+Comparison with raw hash map (no LRU tracking):
+
+| Operation | LRU Cache | unordered_map | Overhead |
+|-----------|-----------|---------------|----------|
+| `get` (hit) | 15.0 ns | 7.5 ns | 2x |
+| `put` | 255 ns | 49 ns | 5x |
+| `exists` | 7.8 ns | 7.5 ns | ~1x |
+
+The overhead is expected for LRU tracking: `get` must update the recency list, and `put` handles eviction.
+
+### Why It's Fast
+
+- **Hash map lookup**: O(1) key access via `std::unordered_map`
+- **Intrusive list**: Recency updates without allocation
+- **Single eviction**: Only the LRU item is removed when full
+- **Reference semantics**: `get` returns a reference, avoiding copies
+
+See [Benchmarks](../benchmarks.md) for full results.
+
+## Typical Use Cases
+
+- Database query caching
+- API response caching
+- Configuration lookups
+- Session management
+- DNS resolution caching
+
 ## Implementation Details
 
 The LRU cache uses a combination of:

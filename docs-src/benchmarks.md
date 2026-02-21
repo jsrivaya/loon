@@ -8,7 +8,7 @@ Performance benchmarks comparing loon data structures against standard library a
 |-----------|--------------|-----------------|----------|
 | [RingBuffer](data-structures/ring-buffer.md) | 0.95 ns | 2.1G ops/s | **3.2x faster** |
 | [SPSC Queue](data-structures/spsc-queue.md) | 9.1 ns | 220M ops/s | **3.4x faster** |
-| LRU Cache | - | - | - |
+| [LRU Cache](data-structures/lru-cache.md) | 7.8 ns | 130M ops/s | O(1) ops |
 | Redis List | - | - | - |
 
 ## RingBuffer vs std::queue
@@ -60,6 +60,45 @@ Real-world scenario with separate producer and consumer threads:
 | 32,768 | 86.6M ops/s | 24.9M ops/s | **3.5x** |
 | 65,536 | 90.7M ops/s | 23.1M ops/s | **3.9x** |
 
+## LRU Cache
+
+O(1) cache operations with automatic eviction of least recently used items.
+
+### Operation Latency
+
+| Operation | Time | Throughput |
+|-----------|------|------------|
+| `get` (hit) | 15.0 ns | 67M ops/s |
+| `get` (miss) | 10.6 ns | 95M ops/s |
+| `put` | 255 ns | 4M ops/s |
+| `exists` | 7.8 ns | **130M ops/s** |
+| Mixed (80% read, 20% write) | 68 ns | 15M ops/s |
+
+### Value Size Impact
+
+| Value Size | Time | Throughput |
+|------------|------|------------|
+| 16 bytes | 13.6 ns | 1.1 GiB/s |
+| 64 bytes | 14.2 ns | 4.2 GiB/s |
+| 256 bytes | 16.3 ns | 14.7 GiB/s |
+
+### LRU Cache vs std::unordered_map
+
+Comparison with raw hash map (no LRU eviction):
+
+| Operation | LRU Cache | unordered_map | Overhead |
+|-----------|-----------|---------------|----------|
+| `get` (hit) | 15.0 ns | 7.5 ns | 2x |
+| `put` | 255 ns | 49 ns | 5x |
+| `exists` | 7.8 ns | 7.5 ns | ~1x |
+
+### String Key Performance
+
+| Operation | Time |
+|-----------|------|
+| `put` (string key) | 448 ns |
+| `get` (string key) | 108 ns |
+
 ## Running Benchmarks
 
 ```bash
@@ -102,6 +141,13 @@ make bench
 2. **No contention**: Designed for exactly one producer and one consumer
 3. **Cache-line friendly**: Head and tail pointers can be on separate cache lines
 4. **Minimal synchronization**: Only acquire/release memory ordering where needed
+
+## Why LRU Cache is Fast
+
+1. **Hash map lookup**: O(1) key access via `std::unordered_map`
+2. **Intrusive list**: Recency updates move list nodes without allocation
+3. **Single eviction**: Only the LRU item is removed when full
+4. **Reference semantics**: `get` returns a reference wrapper, avoiding copies
 
 ## Understanding the Metrics
 

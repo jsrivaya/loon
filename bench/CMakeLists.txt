@@ -3,6 +3,7 @@ find_package(benchmark REQUIRED)
 add_executable(loon_benchmarks
     bench_ring_buffer.cpp
     bench_spsc.cpp
+    bench_lru.cpp
 )
 
 target_link_libraries(loon_benchmarks
