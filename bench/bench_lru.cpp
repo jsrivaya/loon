@@ -39,7 +39,7 @@ static void BM_LRU_Put(benchmark::State& state) {
   int key = 0;
   for (auto _ : state) {
     cache.put(key, key);
-    key = (key + 1) % static_cast<int>(count * 2);  // Mix hits and evictions
+    key = (key + 1) % static_cast<int>(count * 2); // Mix hits and evictions
   }
   state.SetItemsProcessed(state.iterations());
 }
@@ -241,14 +241,14 @@ BENCHMARK(BM_UnorderedMap_Get)->Range(64, 4096);
 // ----------------------------------------------------------------------------
 
 static void BM_LRU_Eviction_Stress(benchmark::State& state) {
-  loon::LRU<int, int> cache(256);  // Small cache
+  loon::LRU<int, int> cache(256); // Small cache
 
   // Pre-fill
   for (int i = 0; i < 256; ++i) {
     cache.put(i, i);
   }
 
-  int key = 256;  // Start with keys that will cause evictions
+  int key = 256; // Start with keys that will cause evictions
   for (auto _ : state) {
     cache.put(key, key);
     ++key;
