@@ -5,7 +5,7 @@ import os
 
 class LoonLibConan(ConanFile):
     name = "loon"
-    version = "0.1.0"
+    version = "0.2.0"
     description = "High-performance, header-only C++ data structures for low-latency applications"
     license = "MIT"
     author = "Jorge Suarez-Rivaya"
