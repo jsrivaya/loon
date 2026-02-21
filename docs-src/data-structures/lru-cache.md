@@ -92,6 +92,28 @@ Comparison with raw hash map (no LRU tracking):
 
 The overhead is expected for LRU tracking: `get` must update the recency list, and `put` handles eviction.
 
+### vs Other Open Source Implementations
+
+Comparison with popular C++ LRU cache libraries:
+
+| Implementation | Get (hit) | Algorithm | Thread-safe |
+|----------------|-----------|-----------|-------------|
+| **loon::LRU** | 15 ns (67M ops/s) | True LRU | No |
+| [LruClockCache](https://github.com/tugrul512bit/LruClockCache) | 16 ns (50M ops/s) | CLOCK (approx) | Yes |
+| [nitnelave/lru_cache](https://github.com/nitnelave/lru_cache) | ~26 µs/100k ops | True LRU | No |
+| [Cachelot](https://cachelot.io/) | ~333 ns (3M ops/s) | LRU | Yes |
+
+**Key differences:**
+
+| Feature | loon::LRU | LruClockCache |
+|---------|-----------|---------------|
+| Eviction policy | True LRU | CLOCK approximation |
+| Memory layout | `std::list` nodes | Pre-allocated array |
+| Multi-threaded reads | No | Up to 2.5B ops/s |
+| Dependencies | None (header-only) | None |
+
+loon::LRU provides **true LRU ordering** with competitive read performance. For multi-threaded read-heavy workloads, consider [LruClockCache](https://github.com/tugrul512bit/LruClockCache) which trades exact LRU for higher throughput.
+
 ### Why It's Fast
 
 - **Hash map lookup**: O(1) key access via `std::unordered_map`
