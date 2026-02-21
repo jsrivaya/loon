@@ -32,7 +32,7 @@ Perfect for **HFT**, **gaming**, **embedded systems**, and **real-time processin
 | Structure | Header | Description | Performance |
 |-----------|--------|-------------|-------------|
 | [**RingBuffer**](https://jsrivaya.github.io/loon/data-structures/ring-buffer/) | `loon/ring_buffer.hpp` | Fixed-size circular queue | **3.2x** faster than `std::queue` |
-| [**SpscQueue**](https://jsrivaya.github.io/loon/data-structures/spsc-queue/) | `loon/spsc.hpp` | Lock-free single-producer single-consumer queue | **3.4x** faster than mutex queue |
+| [**SpscQueue**](https://jsrivaya.github.io/loon/data-structures/spsc-queue/) | `loon/spsc.hpp` | Lock-free single-producer single-consumer queue | **4.9x** faster than mutex queue |
 | [**LRU Cache**](https://jsrivaya.github.io/loon/data-structures/lru-cache/) | `loon/lru.hpp` | Least Recently Used cache | O(1) get/put |
 | [**RedisList**](https://jsrivaya.github.io/loon/data-structures/redis-list/) | `loon/redis_list.hpp` | Redis-style doubly-linked list | O(1) push/pop |
 
@@ -50,8 +50,8 @@ Perfect for **HFT**, **gaming**, **embedded systems**, and **real-time processin
 | Benchmark | loon | std/mutex | Speedup |
 |-----------|------|-----------|---------|
 | RingBuffer round-trip (16B) | 1.9 ns | 6.1 ns | 3.2x |
-| SpscQueue round-trip (16B) | 12.6 ns | 42.4 ns | 3.4x |
-| SpscQueue producer/consumer | 115M ops/s | 26M ops/s | 4.5x |
+| SpscQueue interleaved | 9.1 ns | 44.9 ns | 4.9x |
+| SpscQueue producer/consumer | 110M ops/s | 26M ops/s | 4.2x |
 | LRU Cache get (hit) | 15 ns | - | 67M ops/s |
 | LRU Cache exists | 7.8 ns | - | 130M ops/s |
 | RedisList push/pop | 3.6 ns | 78.5 ns | 22x vs std::list |

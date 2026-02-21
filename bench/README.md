@@ -20,7 +20,7 @@ make bench
 | Component | Best Latency | Peak Throughput | vs std:: |
 |-----------|--------------|-----------------|----------|
 | RingBuffer | 0.95 ns | 2.1G ops/s | **3.2x faster** |
-| SPSC Queue | 12.6 ns | 115M ops/s | **3.4x faster** |
+| SPSC Queue | 9.1 ns | 220M ops/s | **4.9x faster** |
 | LRU Cache | 7.8 ns | 130M ops/s | O(1) ops |
 | Redis List | 0.33 ns | 560M ops/s | **22x** vs std::list |
 

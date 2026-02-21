@@ -1,5 +1,14 @@
 #include <atomic>
 #include <cstddef>
+#include <new>
+
+#ifndef CACHE_LINE_SIZE
+#if defined(__cpp_lib_hardware_interference_size)
+#define CACHE_LINE_SIZE std::hardware_destructive_interference_size
+#else
+#define CACHE_LINE_SIZE 64
+#endif
+#endif
 
 namespace loon {
 
@@ -65,7 +74,7 @@ class SpscQueue {
     }
 
     value = data_[head];
-    head_.store((head_ + 1) % capacity_, std::memory_order_release);
+    head_.store((head + 1) % capacity_, std::memory_order_release);
     return true;
   }
 
@@ -88,8 +97,8 @@ class SpscQueue {
  private:
   size_t capacity_{0};
   T data_[N + 1];
-  std::atomic<size_t> head_{0};
-  std::atomic<size_t> tail_{0};
+  alignas(CACHE_LINE_SIZE) std::atomic<size_t> head_{0}; // Consumer-owned
+  alignas(CACHE_LINE_SIZE) std::atomic<size_t> tail_{0}; // Producer-owned
   static_assert(std::atomic<size_t>::is_always_lock_free, "SpscQueue requires lock-free atomics");
 };
 
