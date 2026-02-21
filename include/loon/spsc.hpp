@@ -74,7 +74,7 @@ class SpscQueue {
     }
 
     value = data_[head];
-    head_.store((head_ + 1) % capacity_, std::memory_order_release);
+    head_.store((head + 1) % capacity_, std::memory_order_release);
     return true;
   }
 
