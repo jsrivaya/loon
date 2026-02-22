@@ -4,6 +4,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
 [![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]()
+[![Latest Release](https://img.shields.io/github/v/release/jsrivaya/loon)](https://github.com/jsrivaya/loon/releases)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)]()
 
 <p align="center">
   <img src="assets/banner-embedded.svg" alt="Loon Banner">
