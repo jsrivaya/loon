@@ -42,7 +42,7 @@ class SpscQueue {
   /// @param value The value to push (copied).
   /// @return true if the value was added, false if the queue is full.
   /// This method is safe to call from the producer thread only.
-  bool push(const T& value) {
+  [[nodiscard]] bool push(const T& value) {
     auto write = write_idx_.load(std::memory_order_relaxed);
     if (write - read_idx_cache_ == N) {
       read_idx_cache_ = read_idx_.load(std::memory_order_acquire);
@@ -58,7 +58,7 @@ class SpscQueue {
   /// @param value The value popped from the queue (output).
   /// @return true if a value was popped, false if the queue is empty.
   /// This method is safe to call from the consumer thread only.
-  bool pop(T& value) {
+  [[nodiscard]] bool pop(T& value) {
     auto read = read_idx_.load(std::memory_order_relaxed);
     if (write_idx_cache_ == read) {
       write_idx_cache_ = write_idx_.load(std::memory_order_acquire);
@@ -74,12 +74,12 @@ class SpscQueue {
   size_t capacity() const { return N; }
 
   /// @brief Checks if the queue is empty.
-  bool empty() const {
+  [[nodiscard]] bool empty() const {
     return write_idx_.load(std::memory_order_acquire) == read_idx_.load(std::memory_order_acquire);
   }
 
   /// @brief Checks if the queue is full.
-  bool full() const {
+  [[nodiscard]] bool full() const {
     return write_idx_.load(std::memory_order_acquire) - read_idx_.load(std::memory_order_acquire) ==
            N;
   }
