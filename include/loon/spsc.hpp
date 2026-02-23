@@ -75,14 +75,13 @@ class SpscQueue {
 
   /// @brief Checks if the queue is empty.
   bool empty() const {
-    return write_idx_.load(std::memory_order_acquire) ==
-           read_idx_.load(std::memory_order_acquire);
+    return write_idx_.load(std::memory_order_acquire) == read_idx_.load(std::memory_order_acquire);
   }
 
   /// @brief Checks if the queue is full.
   bool full() const {
-    return write_idx_.load(std::memory_order_acquire) -
-           read_idx_.load(std::memory_order_acquire) == N;
+    return write_idx_.load(std::memory_order_acquire) - read_idx_.load(std::memory_order_acquire) ==
+           N;
   }
 
  private:
