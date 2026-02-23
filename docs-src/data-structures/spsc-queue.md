@@ -66,23 +66,23 @@ queue.capacity();  // 1024
 
 ## Performance
 
-**4.9x faster** than mutex-protected queues in benchmarks.
+**18.7x faster** than mutex-protected queues in benchmarks.
 
 ### Operation Latency
 
 | Operation | SpscQueue | MutexQueue | Speedup |
 |-----------|-----------|------------|---------|
-| Interleaved push/pop | 9.1 ns | 44.9 ns | **4.9x** |
-| Round-trip (16B) | 13.8 ns | 46.0 ns | 3.3x |
-| Round-trip (64B) | 14.3 ns | 47.2 ns | 3.3x |
-| Round-trip (256B) | 25.4 ns | 55.8 ns | 2.2x |
+| Interleaved push/pop | 2.40 ns | 44.9 ns | **18.7x** |
+| Round-trip (16B) | 2.42 ns | 46.0 ns | **19.0x** |
+| Round-trip (64B) | 4.21 ns | 47.2 ns | **11.2x** |
+| Round-trip (256B) | 13.3 ns | 55.8 ns | **4.2x** |
 
 ### Multi-threaded Producer/Consumer
 
 | Items | SpscQueue | MutexQueue | Speedup |
 |-------|-----------|------------|---------|
-| 4,096 | 110M ops/s | 25.8M ops/s | 4.3x |
-| 65,536 | 96M ops/s | 23.1M ops/s | 4.2x |
+| 4,096 | 297M ops/s | 25.8M ops/s | **11.5x** |
+| 65,536 | 367M ops/s | 23.1M ops/s | **15.9x** |
 
 See [Benchmarks](../benchmarks.md) for full results.
 
@@ -90,7 +90,9 @@ See [Benchmarks](../benchmarks.md) for full results.
 
 - **Lock-free**: Uses atomic operations instead of mutex locks
 - **No contention**: Designed for exactly one producer and one consumer
-- **Cache-line padding**: Head and tail on separate cache lines to prevent false sharing
+- **Cache-line padding**: Producer and consumer indices on separate cache lines to prevent false sharing
+- **Cached index optimization**: Each thread caches the other's index, avoiding cross-cache-line reads on the hot path
+- **Ever-increasing indices**: Full/empty checks use subtraction only — no modulo
 - **Minimal synchronization**: Only acquire/release memory ordering where needed
 
 ## Typical Use Cases

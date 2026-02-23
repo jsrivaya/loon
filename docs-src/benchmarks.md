@@ -7,7 +7,7 @@ Performance benchmarks comparing loon data structures against standard library a
 | Component | Best Latency | Peak Throughput | vs std:: |
 |-----------|--------------|-----------------|----------|
 | [RingBuffer](data-structures/ring-buffer.md) | 0.95 ns | 2.1G ops/s | **3.2x faster** |
-| [SPSC Queue](data-structures/spsc-queue.md) | 9.1 ns | 220M ops/s | **4.9x faster** |
+| [SPSC Queue](data-structures/spsc-queue.md) | 2.40 ns | 832M ops/s | **18.7x faster** |
 | [LRU Cache](data-structures/lru-cache.md) | 7.8 ns | 130M ops/s | O(1) ops |
 | [Redis List](data-structures/redis-list.md) | 0.33 ns | 560M ops/s | **22x** vs std::list |
 
@@ -37,18 +37,18 @@ Lock-free SPSC queue compared against a mutex-protected `std::queue`. Cache-line
 
 | Operation | SpscQueue | MutexQueue | Speedup |
 |-----------|-----------|------------|---------|
-| Interleaved push/pop | 9.1 ns | 44.9 ns | **4.9x** |
-| Round-trip (16B) | 13.8 ns | 46.0 ns | **3.3x** |
-| Round-trip (64B) | 14.3 ns | 47.2 ns | **3.3x** |
-| Round-trip (256B) | 25.4 ns | 55.8 ns | **2.2x** |
+| Interleaved push/pop | 2.40 ns | 44.9 ns | **18.7x** |
+| Round-trip (16B) | 2.42 ns | 46.0 ns | **19.0x** |
+| Round-trip (64B) | 4.21 ns | 47.2 ns | **11.2x** |
+| Round-trip (256B) | 13.3 ns | 55.8 ns | **4.2x** |
 
 ### Throughput
 
 | Message Size | SpscQueue | MutexQueue | Speedup |
 |--------------|-----------|------------|---------|
-| 16 bytes | 2.23 GiB/s | 719 MiB/s | **3.1x** |
-| 64 bytes | 8.38 GiB/s | 2.74 GiB/s | **3.1x** |
-| 256 bytes | 18.9 GiB/s | 9.11 GiB/s | **2.1x** |
+| 16 bytes | 7.34 GiB/s | 719 MiB/s | **10.5x** |
+| 64 bytes | 14.4 GiB/s | 2.74 GiB/s | **5.3x** |
+| 256 bytes | 24.7 GiB/s | 9.11 GiB/s | **2.7x** |
 
 ### Multi-threaded Producer/Consumer
 
@@ -56,10 +56,10 @@ Real-world scenario with separate producer and consumer threads:
 
 | Items | SpscQueue | MutexQueue | Speedup |
 |-------|-----------|------------|---------|
-| 1,024 | 67M ops/s | 22.3M ops/s | **3.0x** |
-| 4,096 | 110M ops/s | 25.8M ops/s | **4.3x** |
-| 32,768 | 104M ops/s | 24.9M ops/s | **4.2x** |
-| 65,536 | 96M ops/s | 23.1M ops/s | **4.2x** |
+| 1,024 | 103M ops/s | 22.3M ops/s | **4.6x** |
+| 4,096 | 297M ops/s | 25.8M ops/s | **11.5x** |
+| 32,768 | 485M ops/s | 24.9M ops/s | **19.5x** |
+| 65,536 | 367M ops/s | 23.1M ops/s | **15.9x** |
 
 ## LRU Cache
 
@@ -179,8 +179,10 @@ make bench
 
 1. **Lock-free**: Uses atomic operations instead of mutex locks
 2. **No contention**: Designed for exactly one producer and one consumer
-3. **Cache-line padding**: Head and tail atomics are on separate cache lines (`alignas(64)`) to prevent false sharing
-4. **Minimal synchronization**: Only acquire/release memory ordering where needed
+3. **Cache-line padding**: Producer and consumer indices are on separate cache lines (`alignas(64)`) to prevent false sharing
+4. **Cached index optimization**: Each thread caches the other thread's index locally, avoiding cross-cache-line reads on every operation
+5. **Ever-increasing indices**: No modulo on full/empty checks — pure subtraction
+6. **Minimal synchronization**: Only acquire/release memory ordering where needed
 
 ## Why LRU Cache is Fast
 

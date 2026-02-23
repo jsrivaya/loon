@@ -18,6 +18,9 @@ namespace loon {
 /// communication between a single producer thread and a single consumer thread. The
 /// capacity is fixed at compile time and the queue will reject new elements when full.
 ///
+/// Indices are ever-increasing (never explicitly wrapped), relying on well-defined
+/// unsigned integer overflow. Buffer access uses modulo N.
+///
 /// @tparam T The element type to store.
 /// @tparam N The maximum number of elements the queue can hold (must be > 0).
 /// @par Example
@@ -31,75 +34,63 @@ namespace loon {
 /// @endcode
 template <typename T, size_t N>
 class SpscQueue {
- public:
-  /// @brief Constructs an empty SpscQueue with a fixed capacity of N.
-  /// The actual buffer size is N+1 to distinguish between full and empty states.
-  /// @example
-  /// loon::SpscQueue<int, 3> queue;
-  SpscQueue() : capacity_(N + 1) {}
+  static_assert(N > 0, "SpscQueue capacity must be greater than 0");
+  static_assert(std::atomic<size_t>::is_always_lock_free, "SpscQueue requires lock-free atomics");
 
+ public:
   /// @brief Pushes a value to the back of the queue.
   /// @param value The value to push (copied).
   /// @return true if the value was added, false if the queue is full.
-  /// This method is safe to call from the producer thread.
-  /// @example
-  /// loon::SpscQueue<int, 3> queue;
-  /// queue.push(42);
+  /// This method is safe to call from the producer thread only.
   bool push(const T& value) {
-    auto tail = tail_.load(std::memory_order_relaxed);
-    auto head = head_.load(std::memory_order_acquire);
-    if ((tail + 1) % capacity_ == head) {
-      return false;
+    auto write = write_idx_.load(std::memory_order_relaxed);
+    if (write - read_idx_cache_ == N) {
+      read_idx_cache_ = read_idx_.load(std::memory_order_acquire);
+      if (write - read_idx_cache_ == N)
+        return false;
     }
-
-    data_[tail] = value;
-    tail_.store((tail + 1) % capacity_, std::memory_order_release);
+    data_[write % N] = value;
+    write_idx_.store(write + 1, std::memory_order_release);
     return true;
   }
 
   /// @brief Pops a value from the front of the queue.
   /// @param value The value popped from the queue (output).
   /// @return true if a value was popped, false if the queue is empty.
-  /// This method is safe to call from the consumer thread.
-  /// @example
-  /// int value;
-  /// if (queue.pop(value)) {
-  ///     // use value
-  /// }
+  /// This method is safe to call from the consumer thread only.
   bool pop(T& value) {
-    auto tail = tail_.load(std::memory_order_acquire);
-    auto head = head_.load(std::memory_order_relaxed);
-    if (tail == head) {
-      return false;
+    auto read = read_idx_.load(std::memory_order_relaxed);
+    if (write_idx_cache_ == read) {
+      write_idx_cache_ = write_idx_.load(std::memory_order_acquire);
+      if (write_idx_cache_ == read)
+        return false;
     }
-
-    value = data_[head];
-    head_.store((head + 1) % capacity_, std::memory_order_release);
+    value = data_[read % N];
+    read_idx_.store(read + 1, std::memory_order_release);
     return true;
   }
 
-  /// @brief   Returns the maximum number of elements the queue can hold.
-  /// @return The maximum number of elements the queue can hold.
-  /// The actual buffer size is N+1, but the usable capacity is N.
-  size_t capacity() const { return capacity_ - 1; }
+  /// @brief Returns the maximum number of elements the queue can hold.
+  size_t capacity() const { return N; }
 
-  /// @brief  Checks if the queue is empty.
-  /// @return true if the queue is empty, false otherwise.
-  bool empty() const { return head_ == tail_; }
+  /// @brief Checks if the queue is empty.
+  bool empty() const {
+    return write_idx_.load(std::memory_order_acquire) ==
+           read_idx_.load(std::memory_order_acquire);
+  }
 
   /// @brief Checks if the queue is full.
-  /// @return true if the queue is full, false otherwise.
   bool full() const {
-    return (tail_.load(std::memory_order_acquire) + 1) % capacity_ ==
-           head_.load(std::memory_order_acquire);
+    return write_idx_.load(std::memory_order_acquire) -
+           read_idx_.load(std::memory_order_acquire) == N;
   }
 
  private:
-  size_t capacity_{0};
-  T data_[N + 1];
-  alignas(CACHE_LINE_SIZE) std::atomic<size_t> head_{0}; // Consumer-owned
-  alignas(CACHE_LINE_SIZE) std::atomic<size_t> tail_{0}; // Producer-owned
-  static_assert(std::atomic<size_t>::is_always_lock_free, "SpscQueue requires lock-free atomics");
+  T data_[N];
+  alignas(CACHE_LINE_SIZE) std::atomic<size_t> write_idx_{0}; // Producer-owned
+  alignas(CACHE_LINE_SIZE) size_t write_idx_cache_{0};        // Producer's cache of read_idx_
+  alignas(CACHE_LINE_SIZE) std::atomic<size_t> read_idx_{0};  // Consumer-owned
+  alignas(CACHE_LINE_SIZE) size_t read_idx_cache_{0};         // Consumer's cache of write_idx_
 };
 
 } // namespace loon
