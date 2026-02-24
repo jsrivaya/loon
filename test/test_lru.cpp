@@ -33,6 +33,15 @@ TEST_F(LRUTest, Remove) {
   EXPECT_FALSE(cache.exists(1));
 }
 
+TEST_F(LRUTest, RemoveUnknownKey) {
+  cache.put(1, "one");
+  EXPECT_TRUE(cache.exists(1));
+  auto current_size = cache.size();
+  EXPECT_FALSE(cache.exists(2));
+  cache.remove(2);
+  EXPECT_EQ(cache.size(), current_size);
+}
+
 TEST_F(LRUTest, Size) {
   EXPECT_EQ(cache.size(), 0);
   cache.put(1, "one");
