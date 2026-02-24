@@ -39,7 +39,7 @@ class RingBuffer {
   /// @brief Pushes a value to the back of the buffer.
   /// @param value The value to push (copied).
   /// @return true if the value was added, false if buffer is full and override is disabled.
-  bool push(const T& value) {
+  [[nodiscard]] bool push(const T& value) {
     if (full()) {
       if (!override) {
         return false;
@@ -57,7 +57,7 @@ class RingBuffer {
 
   /// @brief Removes and returns the front element.
   /// @return The front element, or std::nullopt if empty.
-  std::optional<T> pop() {
+  [[nodiscard]] std::optional<T> pop() {
     if (empty()) {
       return std::nullopt;
     }
@@ -69,7 +69,7 @@ class RingBuffer {
 
   /// @brief Returns the front element without removing it.
   /// @return The front element, or std::nullopt if empty.
-  std::optional<T> front() {
+  [[nodiscard]] std::optional<T> front() {
     if (empty()) {
       return std::nullopt;
     }
@@ -78,7 +78,7 @@ class RingBuffer {
 
   /// @brief Returns the back element without removing it.
   /// @return The back element, or std::nullopt if empty.
-  std::optional<T> back() {
+  [[nodiscard]] std::optional<T> back() {
     if (empty()) {
       return std::nullopt;
     }
