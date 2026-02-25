@@ -1,12 +1,9 @@
-[![Loon](https://img.shields.io/badge/Loon-2e9fc4?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDE2IDE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPCEtLSAxNngxNiBwaXhlbCBsb29uIC0gcmVmaW5lZCBvcmlnaW5hbCAtLT4KICAgIDwhLS0gQmFja2dyb3VuZCAtLT4KICAgIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iI2U4ZjRmOCIvPgogICAgPCEtLSBCb2R5IC0tPgogICAgPHJlY3QgeD0iMSIgeT0iMTAiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiIGZpbGw9IiMxYTM2NWQiLz4KICAgIDxyZWN0IHg9IjMiIHk9IjkiIHdpZHRoPSIyIiBoZWlnaHQ9IjMiIGZpbGw9IiMxYTM2NWQiLz4KICAgIDxyZWN0IHg9IjUiIHk9IjgiIHdpZHRoPSIyIiBoZWlnaHQ9IjQiIGZpbGw9IiMxYTM2NWQiLz4KICAgIDxyZWN0IHg9IjciIHk9IjkiIHdpZHRoPSIyIiBoZWlnaHQ9IjMiIGZpbGw9IiMxYTM2NWQiLz4KICAgIDxyZWN0IHg9IjkiIHk9IjEwIiB3aWR0aD0iMSIgaGVpZ2h0PSIyIiBmaWxsPSIjMWEzNjVkIi8+CiAgICA8IS0tIFdoaXRlIGNoZXN0IC0tPgogICAgPHJlY3QgeD0iMyIgeT0iMTAiIHdpZHRoPSIxIiBoZWlnaHQ9IjIiIGZpbGw9IndoaXRlIi8+CiAgICA8cmVjdCB4PSI0IiB5PSI5IiB3aWR0aD0iMiIgaGVpZ2h0PSIyIiBmaWxsPSJ3aGl0ZSIvPgogICAgPHJlY3QgeD0iNiIgeT0iMTAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IndoaXRlIi8+CiAgICA8IS0tIE5lY2sgLS0+CiAgICA8cmVjdCB4PSI4IiB5PSI3IiB3aWR0aD0iMiIgaGVpZ2h0PSIyIiBmaWxsPSIjMWEzNjVkIi8+CiAgICA8cmVjdCB4PSI5IiB5PSI1IiB3aWR0aD0iMiIgaGVpZ2h0PSIyIiBmaWxsPSIjMWEzNjVkIi8+CiAgICA8IS0tIEhlYWQgLS0+CiAgICA8cmVjdCB4PSIxMCIgeT0iMyIgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0iIzFhMzY1ZCIvPgogICAgPCEtLSBFeWUgLS0+CiAgICA8cmVjdCB4PSIxMSIgeT0iNCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0id2hpdGUiLz4KICAgIDwhLS0gQmVhayAtLT4KICAgIDxyZWN0IHg9IjEzIiB5PSI0IiB3aWR0aD0iMiIgaGVpZ2h0PSIxIiBmaWxsPSIjNGE1NTY4Ii8+Cjwvc3ZnPg==)](https://github.com/jsrivaya/loon)
 [![Build Status](https://github.com/jsrivaya/loon/actions/workflows/ci.yml/badge.svg)](https://github.com/jsrivaya/loon/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/jsrivaya/loon/graph/badge.svg)](https://codecov.io/gh/jsrivaya/loon)
-[![Documentation](https://github.com/jsrivaya/loon/actions/workflows/docs.yml/badge.svg)](https://jsrivaya.github.io/loon/)
+[![Latest Release](https://img.shields.io/github/v/release/jsrivaya/loon)](https://github.com/jsrivaya/loon/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
 [![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]()
-[![Latest Release](https://img.shields.io/github/v/release/jsrivaya/loon)](https://github.com/jsrivaya/loon/releases)
-[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)]()
 
 <p align="center">
   <img src="assets/banner-embedded.svg" alt="Loon Banner">
