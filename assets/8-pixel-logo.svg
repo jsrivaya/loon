@@ -1,5 +1,7 @@
 <svg width="160" height="160" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
     <!-- 16x16 pixel loon - refined original -->
+    <!-- Background -->
+    <rect x="0" y="0" width="16" height="16" fill="#e8f4f8"/>
     <!-- Body -->
     <rect x="1" y="10" width="2" height="2" fill="#1a365d"/>
     <rect x="3" y="9" width="2" height="3" fill="#1a365d"/>
