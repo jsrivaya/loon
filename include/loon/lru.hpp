@@ -42,8 +42,8 @@ class LRU {
   /// @param key The key to look up.
   /// @return A reference to the value if found, std::nullopt otherwise.
   std::optional<std::reference_wrapper<V>> get(const K& key) {
-    const auto it = map.find(key);
-    if (it == map.end())
+    const auto it = lookup.find(key);
+    if (it == lookup.end())
       return std::nullopt;
 
     set_mru(it->second);
@@ -60,10 +60,10 @@ class LRU {
   /// @param key The key to insert or update.
   /// @param value The value to associate with the key.
   void put(const K& key, const V& value) {
-    auto [it, inserted] = map.try_emplace(key);
+    auto [it, inserted] = lookup.try_emplace(key);
     if (inserted) { // key didnt exist
       if (capacity <= store.size()) {
-        map.erase(store.back().first);
+        lookup.erase(store.back().first);
         store.pop_back();
       }
       store.emplace_front(std::pair{key, value});
@@ -80,7 +80,7 @@ class LRU {
   ///
   /// @param key The key to check.
   /// @return true if the key exists, false otherwise.
-  bool exists(const K& key) const { return map.find(key) != map.end(); }
+  bool exists(const K& key) const { return lookup.find(key) != lookup.end(); }
 
   /// @brief Removes a key-value pair from the cache.
   ///
@@ -88,11 +88,11 @@ class LRU {
   ///
   /// @param key The key to remove.
   void remove(const K& key) {
-    const auto it = map.find(key);
-    if (it == map.end())
+    const auto it = lookup.find(key);
+    if (it == lookup.end())
       return;
     store.erase(it->second);
-    map.erase(it);
+    lookup.erase(it);
   }
 
   /// @brief Returns the current number of entries in the cache.
@@ -102,7 +102,7 @@ class LRU {
  private:
   size_t capacity;
   std::list<std::pair<K, V>> store; ///< MRU at front, LRU at back
-  std::unordered_map<K, typename std::list<std::pair<K, V>>::iterator> map;
+  std::unordered_map<K, typename std::list<std::pair<K, V>>::iterator> lookup;
 
   /// @brief Moves an entry to the most recently used position (front of list).
   /// @param it Iterator to the entry in the store list to promote.
