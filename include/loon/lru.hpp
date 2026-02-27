@@ -71,7 +71,7 @@ class LRU {
     } else {
       it->second->second = value;
       set_mru(it->second);
-    } 
+    }
   }
 
   /// @brief Checks if a key exists in the cache.
