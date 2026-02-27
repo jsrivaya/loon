@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Jorge Suarez-Rivaya
+// SPDX-License-Identifier: MIT
+
 #pragma once
 
 /// @file redis_list.hpp

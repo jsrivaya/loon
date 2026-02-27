@@ -1,3 +1,8 @@
+// Copyright (c) 2026 Jorge Suarez-Rivaya
+// SPDX-License-Identifier: MIT
+
+#pragma once
+
 #include <atomic>
 #include <cstddef>
 #include <new>
