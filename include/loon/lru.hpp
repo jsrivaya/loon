@@ -33,10 +33,10 @@ class LRU {
   /// @brief Constructs an LRU cache with the specified capacity.
   /// @param size Maximum number of entries the cache can hold.
   explicit LRU(uint32_t size) : capacity(size), store(size) {
-    for (uint32_t i = 0; i<size; ++i) {
-      store[i].next = i+1;
+    for (uint32_t i = 0; i < size; ++i) {
+      store[i].next = i + 1;
     }
-    store[size-1].next = NIL;
+    store[size - 1].next = NIL;
   }
 
   /// @brief Retrieves a value from the cache.
@@ -83,10 +83,10 @@ class LRU {
 
     store[node].key = key;
     store[node].value = value;
-    store[node].prev  = NIL;
-    store[node].next  = NIL;
+    store[node].prev = NIL;
+    store[node].next = NIL;
     set_mru(node);
-  
+
     return node;
   }
 
@@ -107,7 +107,7 @@ class LRU {
     const auto it = lookup.find(key);
     if (it == lookup.end())
       return;
-    
+
     lookup.erase(it);
   }
 
@@ -126,15 +126,15 @@ class LRU {
   };
 
   std::vector<Node> store;
-  uint32_t front = NIL; ///< MRU at front
-  uint32_t back = NIL; ///< LRU at back
+  uint32_t front = NIL;    ///< MRU at front
+  uint32_t back = NIL;     ///< LRU at back
   uint32_t free_front = 0; ///< First free node
   std::unordered_map<K, uint32_t> lookup;
 
   /// @brief Moves an entry to the most recently used position (front of list).
   /// @param it Iterator to the entry in the store list to promote.
   void set_mru(uint32_t node) {
-    if(node == front) {
+    if (node == front) {
       return;
     }
 
@@ -143,7 +143,7 @@ class LRU {
 
     if (prev != NIL) {
       store[prev].next = next;
-      if(next != NIL) {
+      if (next != NIL) {
         store[next].prev = prev;
       } else {
         // we have to update
@@ -171,8 +171,8 @@ class LRU {
     lookup.erase(store[back].key);
     auto node = back;
     back = store[node].prev;
-    store[back].next = NIL; // Last element next is now NIL
-    store[node].prev = NIL; // move node to head of free nodes
+    store[back].next = NIL;        // Last element next is now NIL
+    store[node].prev = NIL;        // move node to head of free nodes
     store[node].next = free_front; // move node to head of free nodes
     free_front = node;
   }
