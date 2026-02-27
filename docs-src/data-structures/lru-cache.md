@@ -66,19 +66,21 @@ cache.size();     // 1
 
 | Operation | Time | Throughput |
 |-----------|------|------------|
-| `get` (hit) | 15.0 ns | 67M ops/s |
-| `get` (miss) | 10.6 ns | 95M ops/s |
-| `put` | 255 ns | 4M ops/s |
-| `exists` | 7.8 ns | 130M ops/s |
-| Mixed (80% read, 20% write) | 68 ns | 15M ops/s |
+| `get` (hit) | 10.0 ns | 99M ops/s |
+| `get` (miss) | 10.4 ns | 97M ops/s |
+| `put` | 178 ns | 5.6M ops/s |
+| `exists` | 7.4 ns | 135M ops/s |
+| Mixed (80% read, 20% write) | 49 ns | 20M ops/s |
+| Eviction stress | 188 ns | 5.3M ops/s |
+| Random access | 147 ns | 6.8M ops/s |
 
 ### Value Size Impact
 
 | Value Size | Time | Throughput |
 |------------|------|------------|
-| 16 bytes | 13.6 ns | 1.1 GiB/s |
-| 64 bytes | 14.2 ns | 4.2 GiB/s |
-| 256 bytes | 16.3 ns | 14.7 GiB/s |
+| 16 bytes | 14.3 ns | 1.0 GiB/s |
+| 64 bytes | 8.95 ns | 6.7 GiB/s |
+| 256 bytes | 12.5 ns | 19.1 GiB/s |
 
 ### vs std::unordered_map
 
@@ -86,9 +88,9 @@ Comparison with raw hash map (no LRU tracking):
 
 | Operation | LRU Cache | unordered_map | Overhead |
 |-----------|-----------|---------------|----------|
-| `get` (hit) | 15.0 ns | 7.5 ns | 2x |
-| `put` | 255 ns | 49 ns | 5x |
-| `exists` | 7.8 ns | 7.5 ns | ~1x |
+| `get` (hit) | 10.0 ns | 7.2 ns | 1.4x |
+| `put` | 178 ns | 45 ns | 4x |
+| `exists` | 7.4 ns | 7.2 ns | ~1x |
 
 The overhead is expected for LRU tracking: `get` must update the recency list, and `put` handles eviction.
 
@@ -98,7 +100,7 @@ Comparison with popular C++ LRU cache libraries:
 
 | Implementation | Get (hit) | Algorithm | Thread-safe |
 |----------------|-----------|-----------|-------------|
-| **loon::LRU** | 15 ns (67M ops/s) | True LRU | No |
+| **loon::LRU** | 10.0 ns (99M ops/s) | True LRU | No |
 | [LruClockCache](https://github.com/tugrul512bit/LruClockCache) | 16 ns (50M ops/s) | CLOCK (approx) | Yes |
 | [nitnelave/lru_cache](https://github.com/nitnelave/lru_cache) | ~26 µs/100k ops | True LRU | No |
 | [Cachelot](https://cachelot.io/) | ~333 ns (3M ops/s) | LRU | Yes |
