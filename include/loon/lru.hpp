@@ -46,9 +46,9 @@ class LRU {
     if (it == map.end())
       return std::nullopt;
 
-    setMRU(key);
-    const auto store_entry_itr = it->second;
-    return store_entry_itr->second;
+    set_mru(it->second);
+
+    return it->second->second;
   }
 
   /// @brief Inserts or updates a key-value pair in the cache.
@@ -60,18 +60,17 @@ class LRU {
   /// @param key The key to insert or update.
   /// @param value The value to associate with the key.
   void put(const K& key, const V& value) {
-    const auto it = map.find(key);
-    if (it != map.end()) {
-      auto store_entry_itr = it->second;
-      store_entry_itr->second = value;
-      setMRU(key);
-    } else {
-      if (capacity == store.size()) {
+    auto [it, inserted] = map.try_emplace(key);
+    if (inserted) { // key didnt exist
+      if (capacity <= store.size()) {
         map.erase(store.back().first);
         store.pop_back();
       }
       store.emplace_front(std::pair{key, value});
-      map[key] = store.begin();
+      it->second = store.begin();
+    } else {
+      it->second->second = value;
+      set_mru(it->second);
     }
   }
 
@@ -105,11 +104,10 @@ class LRU {
   std::list<std::pair<K, V>> store; ///< MRU at front, LRU at back
   std::unordered_map<K, typename std::list<std::pair<K, V>>::iterator> map;
 
-  /// @brief Moves a key to the most recently used position.
-  /// @param key The key to mark as most recently used.
-  void setMRU(const K& key) {
-    auto element_itr = map[key];
-    store.splice(store.begin(), store, element_itr);
+  /// @brief Moves an entry to the most recently used position (front of list).
+  /// @param it Iterator to the entry in the store list to promote.
+  void set_mru(typename std::list<std::pair<K, V>>::iterator it) {
+    store.splice(store.begin(), store, it);
   }
 };
 
