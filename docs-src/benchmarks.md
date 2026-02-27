@@ -69,21 +69,21 @@ O(1) cache operations with automatic eviction of least recently used items.
 
 | Operation | Time | Throughput |
 |-----------|------|------------|
-| `get` (hit) | 10.0 ns | 99M ops/s |
-| `get` (miss) | 10.4 ns | 97M ops/s |
-| `put` | 178 ns | 5.6M ops/s |
-| `exists` | 7.4 ns | **135M ops/s** |
-| Mixed (80% read, 20% write) | 49 ns | 20M ops/s |
-| Eviction stress | 188 ns | 5.3M ops/s |
-| Random access | 147 ns | 6.8M ops/s |
+| `get` (hit) | 12.0 ns | 83M ops/s |
+| `get` (miss) | 9.75 ns | 103M ops/s |
+| `put` | 109 ns | 9.2M ops/s |
+| `exists` | 7.4 ns | **136M ops/s** |
+| Mixed (80% read, 20% write) | 37.5 ns | 26.7M ops/s |
+| Eviction stress | 114 ns | 8.8M ops/s |
+| Random access | 126 ns | 7.9M ops/s |
 
 ### Value Size Impact
 
 | Value Size | Time | Throughput |
 |------------|------|------------|
-| 16 bytes | 14.3 ns | 1.0 GiB/s |
-| 64 bytes | 8.95 ns | 6.7 GiB/s |
-| 256 bytes | 12.5 ns | 19.1 GiB/s |
+| 16 bytes | 9.22 ns | 1.6 GiB/s |
+| 64 bytes | 9.92 ns | 6.0 GiB/s |
+| 256 bytes | 13.6 ns | 17.5 GiB/s |
 
 ### LRU Cache vs std::unordered_map
 
@@ -91,16 +91,16 @@ Comparison with raw hash map (no LRU eviction):
 
 | Operation | LRU Cache | unordered_map | Overhead |
 |-----------|-----------|---------------|----------|
-| `get` (hit) | 10.0 ns | 7.2 ns | 1.4x |
-| `put` | 178 ns | 45 ns | 4x |
-| `exists` | 7.4 ns | 7.2 ns | ~1x |
+| `get` (hit) | 12.0 ns | 7.1 ns | 1.7x |
+| `put` | 109 ns | 45 ns | 2.4x |
+| `exists` | 7.4 ns | 7.1 ns | ~1x |
 
 ### String Key Performance
 
 | Operation | Time |
 |-----------|------|
-| `put` (string key) | 337 ns |
-| `get` (string key) | 73.2 ns |
+| `put` (string key) | 262 ns |
+| `get` (string key) | 74.8 ns |
 
 ## Redis List
 
@@ -189,9 +189,11 @@ make bench
 ## Why LRU Cache is Fast
 
 1. **Hash map lookup**: O(1) key access via `std::unordered_map`
-2. **Intrusive list**: Recency updates move list nodes without allocation
-3. **Single eviction**: Only the LRU item is removed when full
-4. **Reference semantics**: `get` returns a reference wrapper, avoiding copies
+2. **Pre-allocated pool**: All nodes stored in a contiguous `std::vector` — no heap allocation on insert or eviction
+3. **Free list reuse**: Evicted nodes are pushed onto a free list and reused immediately
+4. **Index-based linking**: Nodes linked by `uint32_t` indices (4 bytes vs 8 for pointers), reducing node size
+5. **Single eviction**: Only the LRU item is removed when full
+6. **Reference semantics**: `get` returns a reference wrapper, avoiding copies
 
 ## Why Redis List is Fast
 
