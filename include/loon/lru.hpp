@@ -78,18 +78,6 @@ class LRU {
       set_mru(it->second);
     }
   }
-  uint32_t emplace_front(K key, const V& value) {
-    auto node = free_front;
-    free_front = store[node].next;
-
-    store[node].key = key;
-    store[node].value = value;
-    store[node].prev = NIL;
-    store[node].next = NIL;
-    set_mru(node);
-
-    return node;
-  }
 
   /// @brief Checks if a key exists in the cache.
   ///
@@ -132,8 +120,8 @@ class LRU {
   uint32_t free_front = 0; ///< First free node
   std::unordered_map<K, uint32_t> lookup;
 
-  /// @brief Moves an entry to the most recently used position (front of list).
-  /// @param it Iterator to the entry in the store list to promote.
+  // Moves node to the front (MRU position). Unlinks from current position,
+  // updates back if it was the tail. No-op if already the front.
   void set_mru(uint32_t node) {
     if (node == front) {
       return;
@@ -164,10 +152,10 @@ class LRU {
     front = node;
   }
 
+  // Sentinel: no-node. prev == NIL → head, next == NIL → tail, front/back == NIL → empty.
   static constexpr uint32_t NIL = UINT32_MAX;
-  // tail->next == NIL  (no node after the tail)
-  // head->prev == NIL  (no node before the head)
 
+  // Removes the LRU (tail) node, erases it from the map, and returns it to the free list.
   void evict() {
     lookup.erase(store[back].key);
     auto node = back;
@@ -176,6 +164,20 @@ class LRU {
     store[node].prev = NIL;        // move node to head of free nodes
     store[node].next = free_front; // move node to head of free nodes
     free_front = node;
+  }
+
+  // Pops a node from the free list, fills it, and links it at the front.
+  uint32_t emplace_front(K key, const V& value) {
+    auto node = free_front;
+    free_front = store[node].next;
+
+    store[node].key = key;
+    store[node].value = value;
+    store[node].prev = NIL;
+    store[node].next = NIL;
+    set_mru(node);
+
+    return node;
   }
 };
 
