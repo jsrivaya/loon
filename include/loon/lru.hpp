@@ -5,7 +5,8 @@
 
 /// @file lru.hpp
 /// @brief Thread-safe LRU (Least Recently Used) cache implementation.
-#include <list>
+#include <cstdint>
+#include <vector>
 #include <optional>
 #include <unordered_map>
 
