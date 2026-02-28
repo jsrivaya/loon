@@ -6,9 +6,9 @@
 /// @file lru.hpp
 /// @brief Thread-safe LRU (Least Recently Used) cache implementation.
 #include <cstdint>
-#include <vector>
 #include <optional>
 #include <unordered_map>
+#include <vector>
 
 namespace loon {
 
