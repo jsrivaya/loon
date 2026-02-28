@@ -5,10 +5,10 @@
 
 /// @file lru.hpp
 /// @brief Thread-safe LRU (Least Recently Used) cache implementation.
-
-#include <list>
+#include <cstdint>
 #include <optional>
 #include <unordered_map>
+#include <vector>
 
 namespace loon {
 
@@ -33,7 +33,12 @@ class LRU {
  public:
   /// @brief Constructs an LRU cache with the specified capacity.
   /// @param size Maximum number of entries the cache can hold.
-  explicit LRU(size_t size) : capacity(size) {}
+  explicit LRU(uint32_t size) : capacity(size), store(size) {
+    for (uint32_t i = 0; i < size; ++i) {
+      store[i].next = i + 1;
+    }
+    store[size - 1].next = NIL;
+  }
 
   /// @brief Retrieves a value from the cache.
   ///
@@ -42,13 +47,13 @@ class LRU {
   /// @param key The key to look up.
   /// @return A reference to the value if found, std::nullopt otherwise.
   std::optional<std::reference_wrapper<V>> get(const K& key) {
-    const auto it = map.find(key);
-    if (it == map.end())
+    const auto it = lookup.find(key);
+    if (it == lookup.end())
       return std::nullopt;
 
     set_mru(it->second);
 
-    return it->second->second;
+    return std::ref(store[it->second].value);
   }
 
   /// @brief Inserts or updates a key-value pair in the cache.
@@ -60,16 +65,16 @@ class LRU {
   /// @param key The key to insert or update.
   /// @param value The value to associate with the key.
   void put(const K& key, const V& value) {
-    auto [it, inserted] = map.try_emplace(key);
+    auto [it, inserted] = lookup.try_emplace(key);
     if (inserted) { // key didnt exist
-      if (capacity <= store.size()) {
-        map.erase(store.back().first);
-        store.pop_back();
+      if (capacity < lookup.size()) {
+        evict();
       }
-      store.emplace_front(std::pair{key, value});
-      it->second = store.begin();
+
+      auto idx = emplace_front(key, value);
+      it->second = idx;
     } else {
-      it->second->second = value;
+      store[it->second].value = value;
       set_mru(it->second);
     }
   }
@@ -80,7 +85,7 @@ class LRU {
   ///
   /// @param key The key to check.
   /// @return true if the key exists, false otherwise.
-  bool exists(const K& key) const { return map.find(key) != map.end(); }
+  bool exists(const K& key) const { return lookup.find(key) != lookup.end(); }
 
   /// @brief Removes a key-value pair from the cache.
   ///
@@ -88,26 +93,91 @@ class LRU {
   ///
   /// @param key The key to remove.
   void remove(const K& key) {
-    const auto it = map.find(key);
-    if (it == map.end())
+    const auto it = lookup.find(key);
+    if (it == lookup.end())
       return;
-    store.erase(it->second);
-    map.erase(it);
+
+    lookup.erase(it);
   }
 
   /// @brief Returns the current number of entries in the cache.
   /// @return The number of cached entries.
-  size_t size() const { return store.size(); }
+  uint32_t size() const { return lookup.size(); }
 
  private:
-  size_t capacity;
-  std::list<std::pair<K, V>> store; ///< MRU at front, LRU at back
-  std::unordered_map<K, typename std::list<std::pair<K, V>>::iterator> map;
+  uint32_t capacity;
 
-  /// @brief Moves an entry to the most recently used position (front of list).
-  /// @param it Iterator to the entry in the store list to promote.
-  void set_mru(typename std::list<std::pair<K, V>>::iterator it) {
-    store.splice(store.begin(), store, it);
+  struct Node {
+    K key;
+    V value;
+    uint32_t prev;
+    uint32_t next;
+  };
+
+  std::vector<Node> store;
+  uint32_t front = NIL;    ///< MRU at front
+  uint32_t back = NIL;     ///< LRU at back
+  uint32_t free_front = 0; ///< First free node
+  std::unordered_map<K, uint32_t> lookup;
+
+  // Moves node to the front (MRU position). Unlinks from current position,
+  // updates back if it was the tail. No-op if already the front.
+  void set_mru(uint32_t node) {
+    if (node == front) {
+      return;
+    }
+
+    auto prev = store[node].prev;
+    auto next = store[node].next;
+
+    if (prev != NIL) {
+      store[prev].next = next;
+      if (next != NIL) {
+        store[next].prev = prev;
+      } else {
+        // we have to update
+        back = store[node].prev;
+      }
+    }
+
+    if (front == NIL && back == NIL) { // first insertion
+      front = node;
+      back = node;
+      return;
+    }
+    store[node].next = front; // if first node front == NIL
+    store[node].prev = NIL;
+
+    store[front].prev = node;
+    front = node;
+  }
+
+  // Sentinel: no-node. prev == NIL → head, next == NIL → tail, front/back == NIL → empty.
+  static constexpr uint32_t NIL = UINT32_MAX;
+
+  // Removes the LRU (tail) node, erases it from the map, and returns it to the free list.
+  void evict() {
+    lookup.erase(store[back].key);
+    auto node = back;
+    back = store[node].prev;
+    store[back].next = NIL;        // Last element next is now NIL
+    store[node].prev = NIL;        // move node to head of free nodes
+    store[node].next = free_front; // move node to head of free nodes
+    free_front = node;
+  }
+
+  // Pops a node from the free list, fills it, and links it at the front.
+  uint32_t emplace_front(K key, const V& value) {
+    auto node = free_front;
+    free_front = store[node].next;
+
+    store[node].key = key;
+    store[node].value = value;
+    store[node].prev = NIL;
+    store[node].next = NIL;
+    set_mru(node);
+
+    return node;
   }
 };
 

@@ -77,6 +77,25 @@ TEST_F(LRUTest, GetUpdatesRecency) {
   EXPECT_TRUE(cache.exists(4));
 }
 
+TEST_F(LRUTest, GetMRURepeatedly) {
+  cache.put(1, "one");
+  cache.put(2, "two");
+  cache.put(3, "three");
+
+  // Repeatedly access the MRU key — previously caused self-loop corruption in set_mru
+  cache.get(3);
+  cache.get(3);
+  cache.get(3);
+
+  // Eviction must still target the true LRU (key 1)
+  cache.put(4, "four");
+
+  EXPECT_FALSE(cache.exists(1));
+  EXPECT_TRUE(cache.exists(2));
+  EXPECT_TRUE(cache.exists(3));
+  EXPECT_TRUE(cache.exists(4));
+}
+
 TEST_F(LRUTest, UpdateExistingKey) {
   cache.put(1, "one");
   cache.put(1, "ONE");

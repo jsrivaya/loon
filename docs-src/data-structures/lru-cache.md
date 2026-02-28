@@ -66,21 +66,21 @@ cache.size();     // 1
 
 | Operation | Time | Throughput |
 |-----------|------|------------|
-| `get` (hit) | 10.0 ns | 99M ops/s |
-| `get` (miss) | 10.4 ns | 97M ops/s |
-| `put` | 178 ns | 5.6M ops/s |
-| `exists` | 7.4 ns | 135M ops/s |
-| Mixed (80% read, 20% write) | 49 ns | 20M ops/s |
-| Eviction stress | 188 ns | 5.3M ops/s |
-| Random access | 147 ns | 6.8M ops/s |
+| `get` (hit) | 12.0 ns | 83M ops/s |
+| `get` (miss) | 9.75 ns | 103M ops/s |
+| `put` | 109 ns | 9.2M ops/s |
+| `exists` | 7.4 ns | 136M ops/s |
+| Mixed (80% read, 20% write) | 37.5 ns | 26.7M ops/s |
+| Eviction stress | 114 ns | 8.8M ops/s |
+| Random access | 126 ns | 7.9M ops/s |
 
 ### Value Size Impact
 
 | Value Size | Time | Throughput |
 |------------|------|------------|
-| 16 bytes | 14.3 ns | 1.0 GiB/s |
-| 64 bytes | 8.95 ns | 6.7 GiB/s |
-| 256 bytes | 12.5 ns | 19.1 GiB/s |
+| 16 bytes | 9.22 ns | 1.6 GiB/s |
+| 64 bytes | 9.92 ns | 6.0 GiB/s |
+| 256 bytes | 13.6 ns | 17.5 GiB/s |
 
 ### vs std::unordered_map
 
@@ -88,9 +88,9 @@ Comparison with raw hash map (no LRU tracking):
 
 | Operation | LRU Cache | unordered_map | Overhead |
 |-----------|-----------|---------------|----------|
-| `get` (hit) | 10.0 ns | 7.2 ns | 1.4x |
-| `put` | 178 ns | 45 ns | 4x |
-| `exists` | 7.4 ns | 7.2 ns | ~1x |
+| `get` (hit) | 12.0 ns | 7.1 ns | 1.7x |
+| `put` | 109 ns | 45 ns | 2.4x |
+| `exists` | 7.4 ns | 7.1 ns | ~1x |
 
 The overhead is expected for LRU tracking: `get` must update the recency list, and `put` handles eviction.
 
@@ -100,7 +100,7 @@ Comparison with popular C++ LRU cache libraries:
 
 | Implementation | Get (hit) | Algorithm | Thread-safe |
 |----------------|-----------|-----------|-------------|
-| **loon::LRU** | 10.0 ns (99M ops/s) | True LRU | No |
+| **loon::LRU** | 12.0 ns (83M ops/s) | True LRU | No |
 | [LruClockCache](https://github.com/tugrul512bit/LruClockCache) | 16 ns (50M ops/s) | CLOCK (approx) | Yes |
 | [nitnelave/lru_cache](https://github.com/nitnelave/lru_cache) | ~26 µs/100k ops | True LRU | No |
 | [Cachelot](https://cachelot.io/) | ~333 ns (3M ops/s) | LRU | Yes |
@@ -110,7 +110,7 @@ Comparison with popular C++ LRU cache libraries:
 | Feature | loon::LRU | LruClockCache |
 |---------|-----------|---------------|
 | Eviction policy | True LRU | CLOCK approximation |
-| Memory layout | `std::list` nodes | Pre-allocated array |
+| Memory layout | Pre-allocated array | Pre-allocated array |
 | Multi-threaded reads | No | Up to 2.5B ops/s |
 | Dependencies | None (header-only) | None |
 
@@ -138,6 +138,6 @@ See [Benchmarks](../benchmarks.md) for full results.
 The LRU cache uses a combination of:
 
 - Hash map for O(1) key lookup
-- Doubly-linked list for O(1) recency tracking and eviction
+- Pre-allocated intrusive doubly-linked list for O(1) recency tracking and eviction
 
-This provides constant-time operations for all cache operations while maintaining proper LRU ordering.
+All nodes are pre-allocated in a contiguous `std::vector` at construction. A free list threads through unused nodes so insert and eviction never touch the heap. Nodes are linked by `uint32_t` indices (4 bytes each vs 8 for pointers), reducing node size and improving cache density.
