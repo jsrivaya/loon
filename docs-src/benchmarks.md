@@ -8,7 +8,7 @@ Performance benchmarks comparing loon data structures against standard library a
 |-----------|--------------|-----------------|----------|
 | [RingBuffer](data-structures/ring-buffer.md) | 0.95 ns | 2.1G ops/s | **3.2x faster** |
 | [SPSC Queue](data-structures/spsc-queue.md) | 2.40 ns | 832M ops/s | **18.7x faster** |
-| [LRU Cache](data-structures/lru-cache.md) | 7.4 ns | 135M ops/s | O(1) ops |
+| [LRU Cache](data-structures/lru-cache.md) | 6.34 ns | 158M ops/s | O(1) ops |
 | [Redis List](data-structures/redis-list.md) | 0.33 ns | 560M ops/s | **22x** vs std::list |
 
 ## RingBuffer vs std::queue
@@ -69,21 +69,21 @@ O(1) cache operations with automatic eviction of least recently used items.
 
 | Operation | Time | Throughput |
 |-----------|------|------------|
-| `get` (hit) | 12.0 ns | 83M ops/s |
-| `get` (miss) | 9.75 ns | 103M ops/s |
-| `put` | 109 ns | 9.2M ops/s |
-| `exists` | 7.4 ns | **136M ops/s** |
-| Mixed (80% read, 20% write) | 37.5 ns | 26.7M ops/s |
-| Eviction stress | 114 ns | 8.8M ops/s |
-| Random access | 126 ns | 7.9M ops/s |
+| `get` (hit) | 11.7 ns | 85.6M ops/s |
+| `get` (miss) | 6.34 ns | **158M ops/s** |
+| `put` | 96.8 ns | 10.4M ops/s |
+| `exists` | 7.77 ns | 129M ops/s |
+| Mixed (80% read, 20% write) | 31.2 ns | 32.1M ops/s |
+| Eviction stress | 98.8 ns | 10.1M ops/s |
+| Random access | 95.4 ns | 10.5M ops/s |
 
 ### Value Size Impact
 
 | Value Size | Time | Throughput |
 |------------|------|------------|
-| 16 bytes | 9.22 ns | 1.6 GiB/s |
-| 64 bytes | 9.92 ns | 6.0 GiB/s |
-| 256 bytes | 13.6 ns | 17.5 GiB/s |
+| 16 bytes | 9.51 ns | 1.57 GiB/s |
+| 64 bytes | 10.4 ns | 5.76 GiB/s |
+| 256 bytes | 13.6 ns | 17.6 GiB/s |
 
 ### LRU Cache vs std::unordered_map
 
@@ -91,16 +91,16 @@ Comparison with raw hash map (no LRU eviction):
 
 | Operation | LRU Cache | unordered_map | Overhead |
 |-----------|-----------|---------------|----------|
-| `get` (hit) | 12.0 ns | 7.1 ns | 1.7x |
-| `put` | 109 ns | 45 ns | 2.4x |
-| `exists` | 7.4 ns | 7.1 ns | ~1x |
+| `get` (hit) | 11.7 ns | 7.2 ns | 1.6x |
+| `put` | 96.8 ns | 46.4 ns | 2.1x |
+| `exists` | 7.77 ns | 7.2 ns | ~1x |
 
 ### String Key Performance
 
 | Operation | Time |
 |-----------|------|
-| `put` (string key) | 262 ns |
-| `get` (string key) | 74.8 ns |
+| `put` (string key) | 194 ns |
+| `get` (string key) | 62.8 ns |
 
 ## Redis List
 

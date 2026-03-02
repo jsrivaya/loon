@@ -34,6 +34,7 @@ class LRU {
   /// @brief Constructs an LRU cache with the specified capacity.
   /// @param size Maximum number of entries the cache can hold.
   explicit LRU(uint32_t size) : capacity(size), store(size) {
+    lookup.reserve(size);
     for (uint32_t i = 0; i < size; ++i) {
       store[i].next = i + 1;
     }
