@@ -183,7 +183,10 @@
 .loon-hero__install-code code {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.85rem;
-  color: var(--loon-code-text);
+  color: #f0f4f8 !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
 /* -- Code Window in Hero -- */
