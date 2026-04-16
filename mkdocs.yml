@@ -9,6 +9,8 @@ site_dir: site
 theme:
   name: material
   custom_dir: docs-src/overrides
+  logo: assets/loon-logo.svg
+  favicon: assets/loon-logo.svg
   palette:
     - scheme: default
       primary: custom
