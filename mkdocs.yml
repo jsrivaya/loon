@@ -1,6 +1,6 @@
 site_name: loon
 site_description: High-performance header-only C++ library for low-latency applications
-site_url: https://jsrivaya.github.io/loon/
+site_url: https://loonlib.dev/
 repo_url: https://github.com/jsrivaya/loon
 repo_name: jsrivaya/loon
 docs_dir: docs-src
@@ -8,31 +8,41 @@ site_dir: site
 
 theme:
   name: material
+  custom_dir: docs-src/overrides
   palette:
     - scheme: default
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+  font:
+    text: "IBM Plex Sans"
+    code: "IBM Plex Mono"
   features:
     - navigation.instant
     - navigation.tracking
+    - navigation.tabs
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.footer
     - search.suggest
     - search.highlight
     - content.code.copy
     - content.code.annotate
+    - toc.follow
   icon:
     repo: fontawesome/brands/github
+
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - search
@@ -73,6 +83,8 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/jsrivaya/loon
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/jsrivaya
 
 nav:
   - Home: index.md

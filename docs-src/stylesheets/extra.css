@@ -1,0 +1,491 @@
+/* ============================================
+   loon — Custom Landing Page Styles
+   Design: Modern C++ library site inspired by
+   TensorFlow / Boost / Tailwind CSS
+   ============================================ */
+
+/* -- Color System -- */
+:root {
+  --loon-brand: #1a6b5a;
+  --loon-brand-light: #2e9fc4;
+  --loon-brand-dark: #0d4a3e;
+  --loon-brand-bg: #f0faf7;
+  --loon-accent: #e8f4f0;
+  --loon-surface: #ffffff;
+  --loon-surface-alt: #f8fafb;
+  --loon-text: #1a1a2e;
+  --loon-text-muted: #5a6370;
+  --loon-border: #e2e8f0;
+  --loon-code-bg: #0f1923;
+  --loon-code-text: #e2e8f0;
+  --loon-gradient-start: #f0faf7;
+  --loon-gradient-end: #e6f2fb;
+  --md-primary-fg-color: #1a6b5a;
+  --md-primary-fg-color--light: #2e9fc4;
+  --md-primary-fg-color--dark: #0d4a3e;
+  --md-accent-fg-color: #2e9fc4;
+}
+
+[data-md-color-scheme="slate"] {
+  --loon-brand: #3dd9a4;
+  --loon-brand-light: #4ec5e0;
+  --loon-brand-dark: #2bb88a;
+  --loon-brand-bg: #0d1117;
+  --loon-accent: #131d2a;
+  --loon-surface: #161b22;
+  --loon-surface-alt: #0d1117;
+  --loon-text: #e6edf3;
+  --loon-text-muted: #8b949e;
+  --loon-border: #21262d;
+  --loon-code-bg: #0a0f16;
+  --loon-code-text: #c9d1d9;
+  --loon-gradient-start: #0d1117;
+  --loon-gradient-end: #0d1520;
+  --md-primary-fg-color: #3dd9a4;
+  --md-primary-fg-color--light: #4ec5e0;
+  --md-primary-fg-color--dark: #2bb88a;
+  --md-accent-fg-color: #4ec5e0;
+}
+
+/* -- Global Resets for Landing -- */
+.md-main__inner {
+  margin-top: 0;
+}
+
+.loon-hero ~ .md-sidebar,
+.loon-hero ~ .md-content__inner > .md-content__button {
+  display: none;
+}
+
+/* -- Hero Section -- */
+.loon-hero {
+  background: linear-gradient(135deg, var(--loon-gradient-start) 0%, var(--loon-gradient-end) 100%);
+  padding: 5rem 2rem 4rem;
+  border-bottom: 1px solid var(--loon-border);
+}
+
+.loon-hero__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.loon-hero__badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--loon-brand);
+  background: var(--loon-accent);
+  border: 1px solid var(--loon-brand);
+  border-radius: 100px;
+  padding: 0.35rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.loon-hero__title {
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 0 0 1rem;
+  color: var(--loon-text);
+  letter-spacing: -0.03em;
+}
+
+.loon-hero__logo-text {
+  background: linear-gradient(135deg, var(--loon-brand) 0%, var(--loon-brand-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.loon-hero__subtitle {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--loon-text);
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.loon-hero__desc {
+  font-size: 1rem;
+  color: var(--loon-text-muted);
+  line-height: 1.7;
+  margin: 0 0 2rem;
+  max-width: 520px;
+}
+
+.loon-hero__actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.loon-btn--primary {
+  background: var(--loon-brand) !important;
+  color: #fff !important;
+  border: none !important;
+  font-weight: 600 !important;
+  padding: 0.7rem 2rem !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.loon-btn--primary:hover {
+  background: var(--loon-brand-dark) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 107, 90, 0.25);
+}
+
+.loon-btn--secondary {
+  background: transparent !important;
+  color: var(--loon-text) !important;
+  border: 1px solid var(--loon-border) !important;
+  font-weight: 500 !important;
+  padding: 0.7rem 2rem !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.loon-btn--secondary:hover {
+  border-color: var(--loon-brand) !important;
+  color: var(--loon-brand) !important;
+  transform: translateY(-1px);
+}
+
+.loon-hero__install {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.loon-hero__install-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--loon-text-muted);
+  white-space: nowrap;
+}
+
+.loon-hero__install-code {
+  background: var(--loon-code-bg);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.loon-hero__install-code code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.85rem;
+  color: var(--loon-code-text);
+}
+
+/* -- Code Window in Hero -- */
+.loon-hero__visual {
+  display: flex;
+  justify-content: center;
+}
+
+.loon-hero__code-window {
+  background: var(--loon-code-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 540px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+              0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.loon-hero__code-dots {
+  display: flex;
+  gap: 6px;
+  padding: 14px 16px 0;
+}
+
+.loon-hero__code-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3a3f4b;
+}
+
+.loon-hero__code-dots span:first-child { background: #ff5f57; }
+.loon-hero__code-dots span:nth-child(2) { background: #febc2e; }
+.loon-hero__code-dots span:nth-child(3) { background: #28c840; }
+
+.loon-hero__code {
+  padding: 1.25rem 1.5rem;
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--loon-code-text);
+  overflow-x: auto;
+}
+
+.loon-hero__code .cp { color: #c678dd; }
+.loon-hero__code .s { color: #98c379; }
+.loon-hero__code .c { color: #5c6370; font-style: italic; }
+.loon-hero__code .n { color: #61afef; }
+.loon-hero__code .nf { color: #e5c07b; }
+.loon-hero__code .kt { color: #c678dd; }
+.loon-hero__code .m { color: #d19a66; }
+
+/* -- Section Shared -- */
+.loon-section__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--loon-text);
+  text-align: center;
+  margin: 0 0 3rem;
+  letter-spacing: -0.02em;
+}
+
+/* -- Features Section -- */
+.loon-features {
+  padding: 5rem 2rem;
+  background: var(--loon-surface);
+}
+
+.loon-features__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.loon-features__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.loon-feature {
+  padding: 2rem;
+  border: 1px solid var(--loon-border);
+  border-radius: 12px;
+  background: var(--loon-surface-alt);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.loon-feature:hover {
+  border-color: var(--loon-brand);
+  transform: translateY(-2px);
+}
+
+.loon-feature__icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.loon-feature__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--loon-text);
+  margin: 0 0 0.5rem;
+}
+
+.loon-feature__desc {
+  font-size: 0.92rem;
+  color: var(--loon-text-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* -- Components Section -- */
+.loon-components {
+  padding: 5rem 2rem;
+  background: var(--loon-surface-alt);
+  border-top: 1px solid var(--loon-border);
+}
+
+.loon-components__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.loon-components__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.loon-component {
+  display: block;
+  padding: 1.75rem;
+  border: 1px solid var(--loon-border);
+  border-radius: 12px;
+  background: var(--loon-surface);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.loon-component:hover {
+  border-color: var(--loon-brand);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  color: inherit;
+  text-decoration: none;
+}
+
+.loon-component__header {
+  margin-bottom: 0.75rem;
+}
+
+.loon-component__file {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  background: var(--loon-accent);
+  color: var(--loon-brand);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.loon-component__title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--loon-text);
+  margin: 0 0 0.4rem;
+}
+
+.loon-component__desc {
+  font-size: 0.9rem;
+  color: var(--loon-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* -- Use Cases Section -- */
+.loon-usecases {
+  padding: 5rem 2rem;
+  background: var(--loon-surface);
+  border-top: 1px solid var(--loon-border);
+}
+
+.loon-usecases__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.loon-usecases__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.loon-usecase {
+  text-align: center;
+  padding: 2rem 1.25rem;
+  border: 1px solid var(--loon-border);
+  border-radius: 12px;
+  background: var(--loon-surface-alt);
+}
+
+.loon-usecase__tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--loon-brand);
+  background: var(--loon-accent);
+  border-radius: 100px;
+  padding: 0.3rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.loon-usecase p {
+  font-size: 0.88rem;
+  color: var(--loon-text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* -- CTA Section -- */
+.loon-cta {
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, var(--loon-gradient-start) 0%, var(--loon-gradient-end) 100%);
+  border-top: 1px solid var(--loon-border);
+  text-align: center;
+}
+
+.loon-cta__inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.loon-cta__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--loon-text);
+  margin: 0 0 1rem;
+  letter-spacing: -0.02em;
+}
+
+.loon-cta__desc {
+  font-size: 1.05rem;
+  color: var(--loon-text-muted);
+  margin: 0 0 2rem;
+  line-height: 1.6;
+}
+
+.loon-cta__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* -- Responsive -- */
+@media (max-width: 900px) {
+  .loon-hero__inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .loon-hero__title {
+    font-size: 2.75rem;
+  }
+
+  .loon-hero__visual {
+    order: -1;
+  }
+
+  .loon-features__grid,
+  .loon-components__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .loon-usecases__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .loon-hero {
+    padding: 3rem 1.25rem 2.5rem;
+  }
+
+  .loon-hero__title {
+    font-size: 2.25rem;
+  }
+
+  .loon-hero__actions {
+    flex-direction: column;
+  }
+
+  .loon-usecases__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .loon-hero__install {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

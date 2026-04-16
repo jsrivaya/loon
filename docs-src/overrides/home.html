@@ -1,0 +1,194 @@
+{% extends "main.html" %}
+
+{% block tabs %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="loon-hero">
+  <div class="loon-hero__inner">
+    <div class="loon-hero__content">
+      <div class="loon-hero__badge">C++17 • Header-Only • MIT License</div>
+      <h1 class="loon-hero__title">
+        <span class="loon-hero__logo-text">loon</span>
+      </h1>
+      <p class="loon-hero__subtitle">
+        High-performance data structures for latency-critical C++ applications.
+      </p>
+      <p class="loon-hero__desc">
+        A lightweight, header-only library with zero external dependencies.
+        Drop-in STL replacements optimized for cache efficiency,
+        low memory footprint, and real-time systems.
+      </p>
+      <div class="loon-hero__actions">
+        <a href="{{ 'getting-started/' | url }}" class="md-button md-button--primary loon-btn--primary">
+          Get Started
+        </a>
+        <a href="{{ 'benchmarks/' | url }}" class="md-button loon-btn--secondary">
+          View Benchmarks
+        </a>
+      </div>
+      <div class="loon-hero__install">
+        <div class="loon-hero__install-label">Install</div>
+        <div class="loon-hero__install-code">
+          <code>git clone https://github.com/jsrivaya/loon.git</code>
+        </div>
+      </div>
+    </div>
+    <div class="loon-hero__visual">
+      <div class="loon-hero__code-window">
+        <div class="loon-hero__code-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <pre class="loon-hero__code"><code><span class="cp">#include</span> <span class="s">&lt;loon/ring_buffer.hpp&gt;</span>
+<span class="cp">#include</span> <span class="s">&lt;loon/lru.hpp&gt;</span>
+<span class="cp">#include</span> <span class="s">&lt;loon/spsc.hpp&gt;</span>
+
+<span class="c">// Lock-free ring buffer — O(1) push/pop</span>
+<span class="n">loon</span>::<span class="n">RingBuffer</span>&lt;<span class="kt">int</span>, <span class="m">1024</span>&gt; <span class="n">buffer</span>;
+<span class="n">buffer</span>.<span class="nf">push</span>(<span class="m">42</span>);
+<span class="kt">auto</span> <span class="n">val</span> = <span class="n">buffer</span>.<span class="nf">pop</span>();
+
+<span class="c">// LRU cache — O(1) get/put</span>
+<span class="n">loon</span>::<span class="n">LRUCache</span>&lt;<span class="n">std</span>::<span class="n">string</span>, <span class="kt">int</span>&gt; <span class="n">cache</span>(<span class="m">100</span>);
+<span class="n">cache</span>.<span class="nf">put</span>(<span class="s">"key"</span>, <span class="m">99</span>);
+
+<span class="c">// SPSC queue — lock-free, wait-free</span>
+<span class="n">loon</span>::<span class="n">SPSCQueue</span>&lt;<span class="kt">double</span>, <span class="m">4096</span>&gt; <span class="n">q</span>;
+<span class="n">q</span>.<span class="nf">try_push</span>(<span class="m">3.14</span>);</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="loon-features">
+  <div class="loon-features__inner">
+    <h2 class="loon-section__title">Why loon?</h2>
+    <div class="loon-features__grid">
+
+      <div class="loon-feature">
+        <div class="loon-feature__icon">⚡</div>
+        <h3 class="loon-feature__title">Blazing Fast</h3>
+        <p class="loon-feature__desc">
+          Benchmarked against STL — faster insertion, lookup, and iteration.
+          Optimized memory layout with SoA, pooling, and alignment.
+        </p>
+      </div>
+
+      <div class="loon-feature">
+        <div class="loon-feature__icon">🎯</div>
+        <h3 class="loon-feature__title">Zero-Cost Abstractions</h3>
+        <p class="loon-feature__desc">
+          Header-only with no external dependencies. No dynamic allocation
+          on critical paths. Ideal for real-time and embedded systems.
+        </p>
+      </div>
+
+      <div class="loon-feature">
+        <div class="loon-feature__icon">🔌</div>
+        <h3 class="loon-feature__title">STL Compatible</h3>
+        <p class="loon-feature__desc">
+          Drop-in replacements with familiar interfaces. Swap out std:: types
+          and immediately benefit from better performance.
+        </p>
+      </div>
+
+      <div class="loon-feature">
+        <div class="loon-feature__icon">📦</div>
+        <h3 class="loon-feature__title">Just Include It</h3>
+        <p class="loon-feature__desc">
+          Copy a header, include it, done. No build system changes,
+          no linking, no configuration. C++17 and above.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Components Section -->
+<section class="loon-components">
+  <div class="loon-components__inner">
+    <h2 class="loon-section__title">Components</h2>
+    <div class="loon-components__grid">
+
+      <a href="{{ 'data-structures/ring-buffer/' | url }}" class="loon-component">
+        <div class="loon-component__header">
+          <code class="loon-component__file">loon/ring_buffer.hpp</code>
+        </div>
+        <h3 class="loon-component__title">Ring Buffer</h3>
+        <p class="loon-component__desc">Fixed-size circular queue with O(1) push/pop. Cache-friendly contiguous memory layout.</p>
+      </a>
+
+      <a href="{{ 'data-structures/lru-cache/' | url }}" class="loon-component">
+        <div class="loon-component__header">
+          <code class="loon-component__file">loon/lru.hpp</code>
+        </div>
+        <h3 class="loon-component__title">LRU Cache</h3>
+        <p class="loon-component__desc">Least Recently Used cache with O(1) get/put. Constant-time eviction and lookup.</p>
+      </a>
+
+      <a href="{{ 'data-structures/redis-list/' | url }}" class="loon-component">
+        <div class="loon-component__header">
+          <code class="loon-component__file">loon/redis_list.hpp</code>
+        </div>
+        <h3 class="loon-component__title">Redis List</h3>
+        <p class="loon-component__desc">Redis-style list with lpush, rpush, lpop, rpop, and lrange operations.</p>
+      </a>
+
+      <a href="{{ 'data-structures/spsc-queue/' | url }}" class="loon-component">
+        <div class="loon-component__header">
+          <code class="loon-component__file">loon/spsc.hpp</code>
+        </div>
+        <h3 class="loon-component__title">SPSC Queue</h3>
+        <p class="loon-component__desc">Lock-free single-producer single-consumer queue. Wait-free for both producer and consumer.</p>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Use Cases Section -->
+<section class="loon-usecases">
+  <div class="loon-usecases__inner">
+    <h2 class="loon-section__title">Built for</h2>
+    <div class="loon-usecases__grid">
+      <div class="loon-usecase">
+        <span class="loon-usecase__tag">HFT</span>
+        <p>High-frequency trading systems where every nanosecond counts</p>
+      </div>
+      <div class="loon-usecase">
+        <span class="loon-usecase__tag">Gaming</span>
+        <p>Game engines and real-time simulations with tight frame budgets</p>
+      </div>
+      <div class="loon-usecase">
+        <span class="loon-usecase__tag">Embedded</span>
+        <p>Resource-constrained systems with strict memory and latency requirements</p>
+      </div>
+      <div class="loon-usecase">
+        <span class="loon-usecase__tag">Robotics</span>
+        <p>Real-time processing pipelines for sensor data and control loops</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="loon-cta">
+  <div class="loon-cta__inner">
+    <h2 class="loon-cta__title">Ready to dive in?</h2>
+    <p class="loon-cta__desc">Get started with loon in under a minute. Header-only means zero friction.</p>
+    <div class="loon-cta__actions">
+      <a href="{{ 'getting-started/' | url }}" class="md-button md-button--primary loon-btn--primary">
+        Get Started
+      </a>
+      <a href="https://github.com/jsrivaya/loon" class="md-button loon-btn--secondary">
+        View on GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
