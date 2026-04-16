@@ -6,9 +6,9 @@
 [![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]()
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/banner-embedded.svg">
-  <img alt="Loon Banner" src="assets/banner-embedded.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="docs-src/assets/banner-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs-src/assets/banner-embedded.svg">
+  <img alt="Loon Banner" src="docs-src/assets/banner-embedded.svg">
 </picture>
 
 ## loon – High-Performance, Header-Only Modern C++ Library
