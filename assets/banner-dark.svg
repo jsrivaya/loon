@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;display=swap');
+      .title { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 48px; font-weight: 600; fill: #34d399; }
+      .subtitle { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 16px; font-weight: 400; fill: #6ee7b7; }
+      .badge { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 11px; font-weight: 600; fill: #a7f3d0; letter-spacing: 0.5px; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="200" fill="#111827" rx="12"/>
+
+  <!-- Pixel loon - scaled up, dark mode colors -->
+  <g transform="translate(48, 28)">
+    <!-- Body -->
+    <rect x="8" y="80" width="16" height="16" fill="#34d399"/>
+    <rect x="24" y="72" width="16" height="24" fill="#34d399"/>
+    <rect x="40" y="64" width="16" height="32" fill="#34d399"/>
+    <rect x="56" y="72" width="16" height="24" fill="#34d399"/>
+    <rect x="72" y="80" width="8" height="16" fill="#34d399"/>
+    <!-- Chest -->
+    <rect x="24" y="80" width="8" height="16" fill="#d1fae5"/>
+    <rect x="32" y="72" width="16" height="16" fill="#d1fae5"/>
+    <rect x="48" y="80" width="8" height="8" fill="#d1fae5"/>
+    <!-- Neck -->
+    <rect x="64" y="56" width="16" height="16" fill="#34d399"/>
+    <rect x="72" y="40" width="16" height="16" fill="#34d399"/>
+    <!-- Head -->
+    <rect x="80" y="24" width="24" height="24" fill="#34d399"/>
+    <!-- Eye -->
+    <rect x="88" y="32" width="8" height="8" fill="#ecfdf5"/>
+    <!-- Beak -->
+    <rect x="104" y="32" width="16" height="8" fill="#fbbf24"/>
+  </g>
+
+  <!-- Text -->
+  <text x="220" y="100" class="title">loon</text>
+
+  <!-- Subtitle -->
+  <text x="220" y="130" class="subtitle">High-performance, header-only C++ data structures</text>
+
+  <!-- Badges -->
+  <g transform="translate(220, 148)">
+    <rect x="0" y="0" width="52" height="20" rx="10" fill="#34d399" opacity="0.15"/>
+    <text x="26" y="14" text-anchor="middle" class="badge">C++17</text>
+
+    <rect x="62" y="0" width="82" height="20" rx="10" fill="#34d399" opacity="0.15"/>
+    <text x="103" y="14" text-anchor="middle" class="badge">Header-only</text>
+
+    <rect x="154" y="0" width="78" height="20" rx="10" fill="#34d399" opacity="0.15"/>
+    <text x="193" y="14" text-anchor="middle" class="badge">MIT License</text>
+  </g>
+</svg>
