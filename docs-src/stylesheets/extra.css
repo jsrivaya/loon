@@ -178,6 +178,27 @@
   padding: 0.5rem 1rem;
   border-radius: 6px;
   overflow-x: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.loon-copy-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #94a3b8;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 1rem;
+  line-height: 1;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.loon-copy-btn:hover {
+  color: #e2e8f0;
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .loon-hero__install-code code {

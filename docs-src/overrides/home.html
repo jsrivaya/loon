@@ -32,7 +32,8 @@
       <div class="loon-hero__install">
         <div class="loon-hero__install-label">Install</div>
         <div class="loon-hero__install-code">
-          <code>git clone https://github.com/jsrivaya/loon.git</code>
+          <code id="install-cmd">git clone https://github.com/jsrivaya/loon.git</code>
+          <button class="loon-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('install-cmd').textContent).then(()=>{this.innerHTML='✓';setTimeout(()=>{this.innerHTML='⧉'},1500)})" title="Copy to clipboard">⧉</button>
         </div>
       </div>
     </div>
