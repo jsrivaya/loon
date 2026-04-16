@@ -38,7 +38,7 @@ jobs:
         run: mkdocs build
 
       - name: Copy assets
-        run: cp -r assets site/
+        run: cp -r docs-src/assets site/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
