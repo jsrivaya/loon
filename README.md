@@ -5,9 +5,11 @@
 [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
 [![Header Only](https://img.shields.io/badge/header--only-yes-green.svg)]()
 
-<p align="center">
-  <img src="assets/banner-embedded.svg" alt="Loon Banner">
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/banner-embedded.svg">
+  <img alt="Loon Banner" src="assets/banner-embedded.svg">
+</picture>
 
 ## loon – High-Performance, Header-Only Modern C++ Library
 
