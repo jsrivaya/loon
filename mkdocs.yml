@@ -94,6 +94,7 @@ nav:
   - Data Structures:
       - Ring Buffer: data-structures/ring-buffer.md
       - LRU Cache: data-structures/lru-cache.md
+      - Bloom Filter: data-structures/bloom-filter.md
       - Redis List: data-structures/redis-list.md
       - SPSC Queue: data-structures/spsc-queue.md
   - Benchmarks: benchmarks.md

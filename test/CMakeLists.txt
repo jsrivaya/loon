@@ -2,6 +2,7 @@ find_package(GTest REQUIRED)
 include(GoogleTest)
 
 add_executable(loon_tests
+    test_bloom_filter.cpp
     test_lru.cpp
     test_redis_list.cpp
     test_ring_buffer.cpp
