@@ -36,6 +36,7 @@ Perfect for **HFT**, **gaming**, **embedded systems**, and **real-time processin
 | [**RingBuffer**](https://jsrivaya.github.io/loon/data-structures/ring-buffer/) | `loon/ring_buffer.hpp` | Fixed-size circular queue | **3.2x** faster than `std::queue` |
 | [**SpscQueue**](https://jsrivaya.github.io/loon/data-structures/spsc-queue/) | `loon/spsc.hpp` | Lock-free single-producer single-consumer queue | **18.7x** faster than mutex queue |
 | [**LRU Cache**](https://jsrivaya.github.io/loon/data-structures/lru-cache/) | `loon/lru.hpp` | Least Recently Used cache | O(1) get/put |
+| [**BloomFilter**](https://jsrivaya.github.io/loon/data-structures/bloom-filter/) | `loon/bloom_filter.hpp` | Probabilistic membership filter | Configurable false positive rate |
 | [**RedisList**](https://jsrivaya.github.io/loon/data-structures/redis-list/) | `loon/redis_list.hpp` | Redis-style doubly-linked list | O(1) push/pop |
 
 ### Complexity Summary
@@ -135,6 +136,22 @@ auto val = cache.get(1);  // std::optional<std::reference_wrapper<V>>
 if (val) {
     std::cout << val->get();  // "hello"
 }
+```
+
+### [BloomFilter](https://jsrivaya.github.io/loon/data-structures/bloom-filter/)
+
+```cpp
+#include <loon/bloom_filter.hpp>
+
+auto filter = loon::BloomFilter<8192>::with_capacity(1000, 0.01);
+
+filter.insert("session:123");
+if (filter.contains("session:123")) {
+    // key may exist, proceed to expensive lookup
+}
+
+filter.false_positive_rate();  // estimated runtime FPR
+filter.clear();                // reset all bits
 ```
 
 ### [RedisList](https://jsrivaya.github.io/loon/data-structures/redis-list/)
